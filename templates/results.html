@@ -242,11 +242,21 @@
         </div>
       </div>
 
+      <!-- Personalized Health Plan Button -->
+      <div class="text-center mb-8" style="margin-top: 2rem;">
+        <button id="generatePlanBtn" class="btn btn-accent btn-lg" style="font-size: 1.125rem; padding: 1rem 2rem; display: inline-flex; align-items: center; gap: 0.75rem;">
+          <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Get Personalized 7-Day Health Plan
+        </button>
+      </div>
+
       <!-- Actions -->
       <div class="flex gap-4 justify-center mb-8" style="flex-wrap: wrap;">
         <a href="/assessment" class="btn btn-outline btn-lg">Take Full Assessment Again</a>
         <a href="/nutrition-scanner" class="btn btn-primary btn-lg">Scan Nutrition Labels</a>
-        <a href="/" class="btn btn-accent btn-lg">Back to Home</a>
+        <a href="/" class="btn btn-outline btn-lg">Back to Home</a>
       </div>
 
       <!-- Disclaimer -->
@@ -292,8 +302,413 @@
     </div>
   </div>
 
+  <!-- Health Plan Modal - Professional Design -->
+  <div id="healthPlanModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); overflow: auto;">
+    <div class="modal-content" style="background-color: #ffffff; margin: 2% auto; padding: 0; border-radius: 8px; width: 90%; max-width: 1000px; max-height: 90vh; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15); position: relative; overflow: hidden;">
+      
+      <!-- Professional Header -->
+      <div style="background-color: #1e293b; padding: 2rem 2.5rem; position: relative; border-bottom: 3px solid #0ea5e9;">
+        <span class="close" style="position: absolute; top: 1.5rem; right: 2rem; color: #e2e8f0; font-size: 28px; font-weight: 300; cursor: pointer; line-height: 1; opacity: 0.8; transition: opacity 0.2s;">&times;</span>
+        
+        <div style="display: flex; align-items: center; gap: 1rem; color: white;">
+          <div style="background-color: #0ea5e9; padding: 0.75rem; border-radius: 6px;">
+            <svg style="width: 2rem; height: 2rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 style="margin: 0; font-size: 1.5rem; font-weight: 600; color: #ffffff;">Personalized Health Plan</h2>
+            <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: #cbd5e1;">7-Day Action Plan Based on Your Health Assessment</p>
+          </div>
+        </div>
+        
+        <!-- Download button - Professional style, always visible after generation -->
+        <button id="downloadPlanBtn" class="btn" style="position: absolute; bottom: -1.25rem; right: 2.5rem; background-color: #0ea5e9; color: white; padding: 0.7rem 1.75rem; border-radius: 6px; font-weight: 500; font-size: 0.95rem; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3); border: none; cursor: pointer; display: none; transition: all 0.2s ease;">
+          <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+            <svg style="width: 1.1rem; height: 1.1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download PDF
+          </span>
+        </button>
+      </div>
+      
+      <!-- Content Area -->
+      <div style="padding: 2.5rem; max-height: calc(90vh - 160px); overflow-y: auto; background-color: #ffffff;">
+        <div id="loadingIndicator" class="loading" style="text-align: center; padding: 4rem 1rem; display: none;">
+          <div style="width: 3.5rem; height: 3.5rem; border: 4px solid #f1f5f9; border-top: 4px solid #0ea5e9; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1.5rem;"></div>
+          <p style="font-size: 1.1rem; color: #334155; margin: 0; font-weight: 500;">Generating Your Health Plan</p>
+          <p style="font-size: 0.95rem; color: #64748b; margin-top: 0.5rem;">Please wait while we create your personalized plan...</p>
+        </div>
+        
+        <div id="planContent" class="plan-content" style="line-height: 1.8; color: #1e293b;"></div>
+      </div>
+      
+      <!-- Footer Actions -->
+      <div id="planActions" style="display: none; padding: 1.25rem 2.5rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right;">
+        <button id="closePlanBtn" class="btn" style="background-color: #64748b; color: white; padding: 0.65rem 1.5rem; border-radius: 6px; font-weight: 500; border: none; cursor: pointer; transition: background-color 0.2s;">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   {% include "components/footer.html" %}
+
+  <style>
+    /* Modal Styles */
+    .modal {
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal-content {
+      animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .close:hover,
+    .close:focus {
+      opacity: 1 !important;
+    }
+    
+    #downloadPlanBtn:hover {
+      background-color: #0284c7 !important;
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4) !important;
+    }
+    
+    #closePlanBtn:hover {
+      background-color: #475569 !important;
+    }
+    
+    /* Plan Content Formatting - Clean & Professional */
+    .plan-content h1 {
+      color: #0f172a;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+      font-weight: 600;
+      border-bottom: 2px solid #0ea5e9;
+      padding-bottom: 0.75rem;
+      padding-left: 0.5rem;
+      border-left: 4px solid #0ea5e9;
+    }
+    
+    .plan-content h1:first-child {
+      margin-top: 0;
+    }
+    
+    .plan-content h2 {
+      color: #1e293b;
+      margin-top: 1.75rem;
+      margin-bottom: 1rem;
+      font-size: 1.375rem;
+      font-weight: 600;
+      padding: 0.75rem 1rem;
+      background-color: #f1f5f9;
+      border-radius: 4px;
+      border-left: 3px solid #0ea5e9;
+    }
+    
+    .plan-content h3 {
+      color: #334155;
+      margin-top: 1.25rem;
+      margin-bottom: 0.75rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      padding-left: 0.75rem;
+      border-left: 3px solid #64748b;
+    }
+    
+    .plan-content ul {
+      margin-left: 1.75rem;
+      margin-bottom: 1.25rem;
+      padding-left: 0.5rem;
+    }
+    
+    .plan-content li {
+      margin-bottom: 0.6rem;
+      line-height: 1.7;
+      color: #475569;
+    }
+    
+    .plan-content strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+    
+    .plan-content p {
+      margin-bottom: 1rem;
+      line-height: 1.75;
+      color: #334155;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 95%;
+        margin: 1rem auto;
+        border-radius: 8px;
+      }
+      
+      .modal-content > div:first-child {
+        padding: 1.5rem;
+      }
+      
+      #downloadPlanBtn {
+        position: static !important;
+        margin-top: 1rem;
+        width: 100%;
+      }
+      
+      .modal-content > div:nth-child(2) {
+        padding: 1.5rem;
+      }
+      
+      .plan-content h1 {
+        font-size: 1.5rem;
+      }
+      
+      .plan-content h2 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+
+  <script>
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      const generateBtn = document.getElementById('generatePlanBtn');
+      const modal = document.getElementById('healthPlanModal');
+      const closeBtn = document.querySelector('.close');
+      const closePlanBtn = document.getElementById('closePlanBtn');
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const planContent = document.getElementById('planContent');
+      const planActions = document.getElementById('planActions');
+      const downloadBtn = document.getElementById('downloadPlanBtn');
+      
+      // User data from template
+      const userData = {{ session.get('assessment_results', {}).get('user_data', {}) | tojson | safe }};
+      const assessmentData = {{ assessment_data | tojson | safe }};
+      
+      // Health scores
+      const healthScores = {
+        diabetes_risk: assessmentData.individual_risks?.diabetes?.score || 0,
+        heart_risk: assessmentData.individual_risks?.heart_disease?.score || 0,
+        hypertension_risk: assessmentData.individual_risks?.hypertension?.score || 0,
+        obesity_risk: assessmentData.individual_risks?.obesity?.score || 0,
+        health_score: assessmentData.health_score || 0,
+        composite_risk: assessmentData.composite_risk || 0
+      };
+      
+      // Generate Plan Button Click
+      if (generateBtn) {
+        generateBtn.addEventListener('click', async function() {
+          // Show modal
+          modal.style.display = 'block';
+          loadingIndicator.style.display = 'block';
+          planContent.innerHTML = '';
+          planActions.style.display = 'none';
+          
+          try {
+            console.log('📊 Generating health plan...');
+            console.log('User Data:', userData);
+            console.log('Health Scores:', healthScores);
+            
+            const response = await fetch('/api/generate-health-plan', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                userData: userData,
+                healthScores: healthScores
+              })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+              console.log('✅ Health plan generated successfully');
+              displayHealthPlan(data.plan);
+            } else {
+              throw new Error(data.error || 'Failed to generate plan');
+            }
+            
+          } catch (error) {
+            console.error('❌ Error:', error);
+            planContent.innerHTML = `
+              <div style="color: var(--danger); padding: 2rem; text-align: center; background: rgba(239, 68, 68, 0.1); border-radius: 8px;">
+                <svg style="width: 3rem; height: 3rem; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 style="margin-top: 0;">Unable to Generate Plan</h3>
+                <p style="margin-bottom: 1rem;">${error.message}</p>
+                <p style="font-size: 0.875rem; color: #666;">
+                  Please make sure your Gemini API key is configured correctly in the .env file.
+                </p>
+              </div>
+            `;
+            planActions.style.display = 'block';
+          } finally {
+            loadingIndicator.style.display = 'none';
+          }
+        });
+      }
+      
+      // Display Health Plan
+      function displayHealthPlan(planText) {
+        // Simple markdown to HTML conversion
+        let html = planText
+          // Headers
+          .replace(/### (.*?)(\n|$)/g, '<h3>$1</h3>')
+          .replace(/## (.*?)(\n|$)/g, '<h2>$1</h2>')
+          .replace(/# (.*?)(\n|$)/g, '<h1>$1</h1>')
+          // Bold text
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          // Lists - more robust
+          .replace(/^\- (.*?)$/gm, '<li>$1</li>')
+          .replace(/^\* (.*?)$/gm, '<li>$1</li>')
+          // Wrap consecutive list items in ul
+          .replace(/(<li>.*?<\/li>\n?)+/g, '<ul>$&</ul>')
+          // Paragraphs
+          .replace(/\n\n/g, '</p><p>')
+          .replace(/^(?!<[hul])/gm, '<p>')
+          .replace(/(?<![>])$/gm, '</p>');
+        
+        // Clean up extra tags
+        html = html.replace(/<p><\/p>/g, '')
+                   .replace(/<p>(<[hul])/g, '$1')
+                   .replace(/(<\/[hul][^>]*>)<\/p>/g, '$1');
+        
+        planContent.innerHTML = html;
+        planActions.style.display = 'block';
+        
+        // Show download button in header
+        downloadBtn.style.display = 'block';
+        
+        // Store plan for download
+        window.currentHealthPlan = planText;
+      }
+      
+      // Download Plan as PDF
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', async function() {
+          if (!window.currentHealthPlan) return;
+          
+          // Store original content
+          const originalContent = downloadBtn.innerHTML;
+          
+          // Disable button during download
+          downloadBtn.disabled = true;
+          downloadBtn.innerHTML = `
+            <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 1rem; height: 1rem; border: 2px solid #0ea5e9; border-top: 2px solid transparent; border-radius: 50%; animation: spin 0.6s linear infinite;"></div>
+              Generating...
+            </span>
+          `;
+          
+          try {
+            // Get user name if available
+            const userName = userData.name || userData.first_name || 'User';
+            
+            // Call PDF generation endpoint
+            const response = await fetch('/api/download-health-plan-pdf', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                planText: window.currentHealthPlan,
+                userName: userName
+              })
+            });
+            
+            if (!response.ok) {
+              const errorData = await response.json();
+              console.error('Server error:', errorData);
+              throw new Error(errorData.error || 'Failed to generate PDF');
+            }
+            
+            // Get the blob from response
+            const blob = await response.blob();
+            
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Health_Plan_${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            // Success feedback
+            downloadBtn.innerHTML = `
+              <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <svg style="width: 1.2rem; height: 1.2rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Downloaded!
+              </span>
+            `;
+            setTimeout(() => {
+              downloadBtn.innerHTML = originalContent;
+              downloadBtn.disabled = false;
+            }, 2000);
+            
+          } catch (error) {
+            console.error('PDF download error:', error);
+            alert('Failed to generate PDF. Please try again.');
+            downloadBtn.innerHTML = originalContent;
+            downloadBtn.disabled = false;
+          }
+        });
+      }
+      
+      // Close Modal
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+      
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+      }
+      
+      if (closePlanBtn) {
+        closePlanBtn.addEventListener('click', closeModal);
+      }
+      
+      // Close when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+          closeModal();
+        }
+      });
+      
+      // Close on Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+          closeModal();
+        }
+      });
+    });
+  </script>
 
   <script src="/static/js/common.js"></script>
 </body>

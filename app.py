@@ -342,6 +342,11 @@ def results():
                          has_results=True, 
                          assessment_data=report)
 
+@app.route('/login')
+def login():    
+    """Login page"""
+    return render_template('login.html')
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404

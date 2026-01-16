@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health AI - AI-Powered Health Risk Assessment</title>
+  <meta name="description" content="Get instant health insights with AI-powered risk assessment for heart disease, diabetes, hypertension, and obesity.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+  <style>
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 200px);
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .auth-header h1 {
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+
+    .auth-header p {
+      margin: 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .auth-card button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+    }
+
+    .auth-card button:hover {
+      background-color: #0056b3;
+    }
+
+    .auth-card p {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .auth-card p button {
+      background: none;
+      color: #007bff;
+      padding: 0;
+      margin: 0;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <!-- Main Content -->
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Welcome</h1>
+        <p>Sign in to your account</p>
+      </div>
+      <button id="googleBtn">Sign in with Google</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script type="module" src="/static/js/src/app.js"></script>
+</body>
+</html>
+
+
+
+

@@ -241,6 +241,532 @@ def nutrition_scanner():
     """Nutrition label scanner page"""
     return render_template('nutrition-scanner.html')
 
+@app.route('/api/generate-health-plan', methods=['POST'])
+def generate_health_plan():
+    """
+    API endpoint for generating personalized 7-day health plan using Gemini AI
+    """
+    try:
+        import google.generativeai as genai
+        
+        # Get API key
+        api_key = os.getenv('GEMINI_API_KEY')
+        if not api_key:
+            return jsonify({
+                'success': False,
+                'error': 'Gemini API key not configured. Please set GEMINI_API_KEY in your .env file.'
+            }), 500
+        
+        # Configure Gemini
+        genai.configure(api_key=api_key)
+        
+        # Get request data
+        data = request.get_json()
+        user_data = data.get('userData', {})
+        health_scores = data.get('healthScores', {})
+        
+        # Extract key information
+        age = user_data.get('age', 'N/A')
+        gender = user_data.get('gender', 'N/A')
+        weight = user_data.get('weight', 'N/A')
+        height = user_data.get('height', 'N/A')
+        
+        # Calculate BMI if available
+        bmi = 'N/A'
+        if weight != 'N/A' and height != 'N/A':
+            try:
+                bmi = round(float(weight) / ((float(height)/100) ** 2), 1)
+            except:
+                bmi = 'N/A'
+        
+        # Get blood pressure
+        systolic = user_data.get('systolic_bp', 'N/A')
+        diastolic = user_data.get('diastolic_bp', 'N/A')
+        bp = f"{systolic}/{diastolic}" if systolic != 'N/A' and diastolic != 'N/A' else 'N/A'
+        
+        # Get other health metrics
+        glucose = user_data.get('glucose', 'N/A')
+        cholesterol = user_data.get('cholesterol', 'N/A')
+        
+        # Get lifestyle factors
+        smoking = user_data.get('smokes', 'N/A')
+        alcohol = user_data.get('alcohol_consumption', 'N/A')
+        activity = user_data.get('physical_activity_frequency', 'N/A')
+        
+        # Get risk scores
+        diabetes_risk = health_scores.get('diabetes_risk', 0)
+        heart_risk = health_scores.get('heart_risk', 0)
+        hypertension_risk = health_scores.get('hypertension_risk', 0)
+        obesity_risk = health_scores.get('obesity_risk', 0)
+        overall_score = health_scores.get('health_score', 0)
+        
+        # Build optimized prompt (token-efficient)
+        prompt = f"""Create 7-day health plan for:
+Age {age}, {gender}, BMI {bmi}, BP {bp}, Glucose {glucose}, Chol {cholesterol}
+Smoking: {smoking}, Alcohol: {alcohol}, Activity: {activity}
+Risks: DM {diabetes_risk:.0f}%, Heart {heart_risk:.0f}%, HTN {hypertension_risk:.0f}%, Obesity {obesity_risk:.0f}%
+Overall Score: {overall_score:.0f}/100
+
+Format: Day 1-7, each with:
+- Morning/Afternoon/Evening actions
+- Diet tips (specific foods)
+- Exercise (10-15min, realistic)
+- One measurable goal
+
+Make it actionable, personalized, encouraging. Focus on highest risks."""
+        
+        # Try multiple Gemini models with fallback
+        models_to_try = [
+            "gemini-2.5-flash",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
+            "gemini-pro",
+            "models/gemini-1.5-flash",
+            "models/gemini-pro"
+        ]
+        
+        last_error = None
+        for model_name in models_to_try:
+            try:
+                print(f"🤖 Trying Gemini model: {model_name}")
+                model = genai.GenerativeModel(model_name)
+                
+                response = model.generate_content(prompt)
+                
+                if response and response.text:
+                    print(f"✅ Successfully generated health plan using {model_name}")
+                    return jsonify({
+                        'success': True,
+                        'plan': response.text,
+                        'model_used': model_name
+                    })
+                else:
+                    raise ValueError("Empty response from AI")
+                    
+            except Exception as e:
+                last_error = str(e)
+                print(f"⚠️  {model_name} failed: {e}")
+                continue
+        
+        # All models failed
+        return jsonify({
+            'success': False,
+            'error': f'Unable to generate health plan. All AI models failed. Last error: {last_error}'
+        }), 500
+        
+    except ImportError:
+        return jsonify({
+            'success': False,
+            'error': 'Google Generative AI library not installed. Run: pip install google-generativeai'
+        }), 500
+        
+    except Exception as e:
+        print(f"❌ Error generating health plan: {e}")
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': f'Failed to generate health plan: {str(e)}'
+        }), 500
+
+@app.route('/api/download-health-plan-pdf', methods=['POST'])
+def download_health_plan_pdf():
+    """
+    API endpoint for downloading health plan as formatted PDF
+    """
+    try:
+        from reportlab.lib.pagesizes import letter
+        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+        from reportlab.lib.units import inch
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+        from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY, TA_RIGHT
+        from reportlab.lib.colors import HexColor, black, white
+        from reportlab.graphics.shapes import Drawing, Line
+        from io import BytesIO
+        from flask import send_file
+        import re
+        
+        # Get plan text from request
+        data = request.get_json()
+        plan_text = data.get('planText', '')
+        user_name = data.get('userName', 'User')
+        
+        if not plan_text:
+            return jsonify({
+                'success': False,
+                'error': 'No health plan text provided'
+            }), 400
+        
+        # Get user assessment data from session - with defaults
+        assessment_results = session.get('assessment_results', {})
+        user_data = assessment_results.get('user_data', {})
+        health_scores = assessment_results.get('scores', {})
+        
+        # Create PDF in memory
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(
+            buffer,
+            pagesize=letter,
+            rightMargin=0.6*inch,
+            leftMargin=0.6*inch,
+            topMargin=0.5*inch,
+            bottomMargin=0.6*inch
+        )
+        
+        # Define professional hospital-style colors
+        HEADER_BG = HexColor('#003d5b')      # Dark medical blue
+        ACCENT_BLUE = HexColor('#0066cc')    # Professional blue
+        SECTION_BG = HexColor('#f0f4f8')     # Light gray-blue
+        TEXT_PRIMARY = HexColor('#1a1a1a')   # Almost black
+        TEXT_SECONDARY = HexColor('#4a5568') # Gray
+        BORDER_COLOR = HexColor('#cbd5e0')   # Light border
+        
+        # Define styles
+        styles = getSampleStyleSheet()
+        
+        # Hospital Header Style
+        hospital_header_style = ParagraphStyle(
+            'HospitalHeader',
+            parent=styles['Heading1'],
+            fontSize=22,
+            textColor=HEADER_BG,
+            spaceAfter=6,
+            alignment=TA_CENTER,
+            fontName='Helvetica-Bold',
+            leading=26
+        )
+        
+        # Document Title Style
+        doc_title_style = ParagraphStyle(
+            'DocumentTitle',
+            parent=styles['Heading1'],
+            fontSize=16,
+            textColor=white,
+            spaceAfter=8,
+            spaceBefore=8,
+            alignment=TA_CENTER,
+            fontName='Helvetica-Bold',
+            backColor=HEADER_BG,
+            borderPadding=12,
+            leading=20
+        )
+        
+        # Section Header Style (Medical Report Style)
+        section_header_style = ParagraphStyle(
+            'SectionHeader',
+            parent=styles['Heading1'],
+            fontSize=13,
+            textColor=white,
+            spaceAfter=12,
+            spaceBefore=16,
+            fontName='Helvetica-Bold',
+            backColor=ACCENT_BLUE,
+            borderPadding=(8, 8, 8, 12),
+            leftIndent=0,
+            leading=16
+        )
+        
+        # Subsection Style
+        subsection_style = ParagraphStyle(
+            'Subsection',
+            parent=styles['Heading2'],
+            fontSize=12,
+            textColor=ACCENT_BLUE,
+            spaceAfter=8,
+            spaceBefore=12,
+            fontName='Helvetica-Bold',
+            borderWidth=0,
+            borderPadding=(0, 0, 6, 0),
+            borderColor=ACCENT_BLUE,
+            leftIndent=0
+        )
+        
+        # Sub-subsection Style
+        subsubsection_style = ParagraphStyle(
+            'SubSubsection',
+            parent=styles['Heading3'],
+            fontSize=11,
+            textColor=TEXT_PRIMARY,
+            spaceAfter=6,
+            spaceBefore=8,
+            fontName='Helvetica-Bold',
+            leftIndent=10
+        )
+        
+        # Body text style
+        body_style = ParagraphStyle(
+            'MedicalBody',
+            parent=styles['BodyText'],
+            fontSize=10,
+            leading=15,
+            alignment=TA_JUSTIFY,
+            spaceAfter=6,
+            textColor=TEXT_PRIMARY,
+            fontName='Helvetica'
+        )
+        
+        # Bullet style
+        bullet_style = ParagraphStyle(
+            'MedicalBullet',
+            parent=styles['BodyText'],
+            fontSize=10,
+            leading=14,
+            leftIndent=25,
+            spaceAfter=5,
+            textColor=TEXT_PRIMARY,
+            bulletIndent=15,
+            fontName='Helvetica'
+        )
+        
+        # Info box style
+        info_style = ParagraphStyle(
+            'InfoBox',
+            parent=styles['Normal'],
+            fontSize=9,
+            leading=13,
+            textColor=TEXT_SECONDARY,
+            alignment=TA_LEFT,
+            fontName='Helvetica',
+            leftIndent=5,
+            rightIndent=5
+        )
+        
+        # Build PDF content
+        story = []
+        
+        # ===== HOSPITAL HEADER SECTION =====
+        story.append(Paragraph("HEALTH ASSESSMENT CENTER", hospital_header_style))
+        story.append(Paragraph(
+            "<font size=9 color='#4a5568'>AI-Powered Personalized Health Management System</font>",
+            ParagraphStyle('Tagline', parent=styles['Normal'], alignment=TA_CENTER, spaceAfter=8)
+        ))
+        
+        # Horizontal line
+        line_drawing = Drawing(7*inch, 10)
+        line_drawing.add(Line(0, 5, 7*inch, 5, strokeColor=HEADER_BG, strokeWidth=2))
+        story.append(line_drawing)
+        story.append(Spacer(1, 0.12*inch))
+        
+        # Document Title Box
+        story.append(Paragraph("PERSONALIZED HEALTH PLAN REPORT", doc_title_style))
+        story.append(Spacer(1, 0.15*inch))
+        
+        # ===== PATIENT INFORMATION TABLE =====
+        from datetime import datetime
+        current_date = datetime.now()
+        
+        patient_data = [
+            ['Patient Information', '', '', ''],
+            ['Name:', user_name, 'Report Date:', current_date.strftime('%B %d, %Y')],
+            ['Age:', f"{user_data.get('age', 'N/A')} years", 'Report ID:', f"HP-{current_date.strftime('%Y%m%d-%H%M')}"],
+            ['Gender:', user_data.get('gender', 'N/A').title(), 'Generated:', current_date.strftime('%I:%M %p')]
+        ]
+        
+        patient_table = Table(patient_data, colWidths=[1.5*inch, 2*inch, 1.5*inch, 2*inch])
+        patient_table.setStyle(TableStyle([
+            # Header row
+            ('BACKGROUND', (0, 0), (-1, 0), SECTION_BG),
+            ('TEXTCOLOR', (0, 0), (-1, 0), HEADER_BG),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 11),
+            ('SPAN', (0, 0), (-1, 0)),
+            ('ALIGN', (0, 0), (-1, 0), 'LEFT'),
+            ('LEFTPADDING', (0, 0), (-1, 0), 10),
+            ('TOPPADDING', (0, 0), (-1, 0), 8),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+            
+            # Data rows
+            ('FONTNAME', (0, 1), (0, -1), 'Helvetica-Bold'),
+            ('FONTNAME', (2, 1), (2, -1), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 1), (-1, -1), 9),
+            ('TEXTCOLOR', (0, 1), (-1, -1), TEXT_PRIMARY),
+            ('GRID', (0, 0), (-1, -1), 0.5, BORDER_COLOR),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('LEFTPADDING', (0, 0), (-1, -1), 10),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+            ('TOPPADDING', (0, 1), (-1, -1), 6),
+            ('BOTTOMPADDING', (0, 1), (-1, -1), 6),
+        ]))
+        
+        story.append(patient_table)
+        story.append(Spacer(1, 0.2*inch))
+        
+        # ===== HEALTH SCORES SUMMARY TABLE =====
+        if health_scores:
+            story.append(Paragraph("HEALTH ASSESSMENT SUMMARY", section_header_style))
+            
+            scores_data = [['Health Category', 'Score', 'Status']]
+            
+            for category, score in health_scores.items():
+                if isinstance(score, (int, float)):
+                    score_val = round(score, 1)
+                    if score_val >= 80:
+                        status = 'Excellent'
+                        status_color = HexColor('#10b981')
+                    elif score_val >= 60:
+                        status = 'Good'
+                        status_color = HexColor('#3b82f6')
+                    elif score_val >= 40:
+                        status = 'Fair'
+                        status_color = HexColor('#f59e0b')
+                    else:
+                        status = 'Needs Attention'
+                        status_color = HexColor('#ef4444')
+                    
+                    scores_data.append([
+                        category.replace('_', ' ').title(),
+                        f"{score_val}%",
+                        status
+                    ])
+            
+            if len(scores_data) > 1:
+                scores_table = Table(scores_data, colWidths=[3*inch, 1.5*inch, 2.5*inch])
+                scores_table.setStyle(TableStyle([
+                    # Header
+                    ('BACKGROUND', (0, 0), (-1, 0), ACCENT_BLUE),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), white),
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTSIZE', (0, 0), (-1, 0), 10),
+                    ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+                    
+                    # Data
+                    ('FONTSIZE', (0, 1), (-1, -1), 9),
+                    ('FONTNAME', (0, 1), (0, -1), 'Helvetica'),
+                    ('FONTNAME', (1, 1), (-1, -1), 'Helvetica-Bold'),
+                    ('ALIGN', (1, 1), (2, -1), 'CENTER'),
+                    ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+                    
+                    # Grid
+                    ('GRID', (0, 0), (-1, -1), 0.5, BORDER_COLOR),
+                    ('ROWBACKGROUNDS', (0, 1), (-1, -1), [white, SECTION_BG]),
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+                    ('LEFTPADDING', (0, 0), (-1, -1), 10),
+                    ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+                    ('TOPPADDING', (0, 0), (-1, -1), 8),
+                    ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+                ]))
+                
+                story.append(scores_table)
+                story.append(Spacer(1, 0.25*inch))
+        
+        # ===== HEALTH PLAN CONTENT =====
+        story.append(Paragraph("DETAILED HEALTH PLAN", section_header_style))
+        story.append(Spacer(1, 0.1*inch))
+        
+        # Process the markdown text
+        lines = plan_text.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            
+            if not line:
+                story.append(Spacer(1, 0.08*inch))
+                continue
+            
+            # Main heading (# )
+            if line.startswith('# ') and not line.startswith('## '):
+                text = line.replace('# ', '').strip()
+                story.append(Spacer(1, 0.12*inch))
+                story.append(Paragraph(text.upper(), section_header_style))
+                
+            # Subheading (## )
+            elif line.startswith('## ') and not line.startswith('### '):
+                text = line.replace('## ', '').strip()
+                story.append(Paragraph(text, subsection_style))
+                
+            # Sub-subheading (### )
+            elif line.startswith('### '):
+                text = line.replace('### ', '').strip()
+                story.append(Paragraph(f"▸ {text}", subsubsection_style))
+                
+            # Bullet points
+            elif line.startswith('- ') or line.startswith('* '):
+                text = line.replace('- ', '').replace('* ', '').strip()
+                # Convert markdown bold to HTML
+                text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
+                story.append(Paragraph(f"• {text}", bullet_style))
+                
+            # Regular text
+            else:
+                # Convert markdown bold to HTML
+                text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', line)
+                story.append(Paragraph(text, body_style))
+        
+        # ===== FOOTER SECTION =====
+        story.append(Spacer(1, 0.3*inch))
+        
+        # Disclaimer box
+        disclaimer_data = [[
+            Paragraph(
+                "<b>⚠️ MEDICAL DISCLAIMER</b><br/>"
+                "This health plan is generated by an AI-powered system for informational and educational purposes only. "
+                "It is not intended to replace professional medical advice, diagnosis, or treatment. "
+                "Always seek the advice of your physician or other qualified health provider with any questions you may have "
+                "regarding a medical condition. Never disregard professional medical advice or delay in seeking it because of "
+                "information provided in this report.",
+                ParagraphStyle(
+                    'DisclaimerText',
+                    parent=styles['Normal'],
+                    fontSize=7,
+                    leading=10,
+                    textColor=TEXT_SECONDARY,
+                    alignment=TA_JUSTIFY
+                )
+            )
+        ]]
+        
+        disclaimer_table = Table(disclaimer_data, colWidths=[7*inch])
+        disclaimer_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, -1), HexColor('#fff3cd')),
+            ('BOX', (0, 0), (-1, -1), 1, HexColor('#ffc107')),
+            ('LEFTPADDING', (0, 0), (-1, -1), 15),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 15),
+            ('TOPPADDING', (0, 0), (-1, -1), 12),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]))
+        
+        story.append(disclaimer_table)
+        
+        # Report footer
+        story.append(Spacer(1, 0.15*inch))
+        footer_line = Drawing(7*inch, 10)
+        footer_line.add(Line(0, 5, 7*inch, 5, strokeColor=BORDER_COLOR, strokeWidth=1))
+        story.append(footer_line)
+        story.append(Spacer(1, 0.08*inch))
+        story.append(Paragraph(
+            f"<font size=7 color='#718096'>Report Generated: {current_date.strftime('%B %d, %Y at %I:%M %p')} | "
+            f"Health Assessment Center © {current_date.year} | Confidential Medical Document</font>",
+            ParagraphStyle('Footer', parent=styles['Normal'], alignment=TA_CENTER, fontSize=7, textColor=TEXT_SECONDARY)
+        ))
+        
+        # Build PDF
+        doc.build(story)
+        
+        # Get PDF data
+        buffer.seek(0)
+        
+        # Send file
+        return send_file(
+            buffer,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=f'Health_Plan_Report_{current_date.strftime("%Y%m%d_%H%M")}.pdf'
+        )
+        
+    except ImportError:
+        return jsonify({
+            'success': False,
+            'error': 'ReportLab library not installed. Run: pip install reportlab'
+        }), 500
+        
+    except Exception as e:
+        print(f"❌ Error generating PDF: {e}")
+        print(traceback.format_exc())
+        return jsonify({
+            'success': False,
+            'error': f'Failed to generate PDF: {str(e)}'
+        }), 500
+
 @app.route('/api/analyze-nutrition', methods=['POST'])
 def api_analyze_nutrition():
     """API endpoint for nutrition label analysis"""

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 6rem 1rem; text-align: center;">
+    <div class="max-w-2xl" style="margin: 0 auto;">
+      <div style="font-size: 8rem; font-weight: 700; color: var(--primary); opacity: 0.2; line-height: 1;">404</div>
+      <h1 class="mb-4">Page Not Found</h1>
+      <p class="text-muted mb-8" style="font-size: 1.125rem;">
+        Sorry, we couldn't find the page you're looking for. It might have been moved or deleted.
+      </p>
+      <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+        <a href="/" class="btn btn-primary btn-lg">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          Go Home
+        </a>
+        <a href="/assessment" class="btn btn-accent btn-lg">
+          Take Assessment
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  </body>
+</html>
+
+
+
+

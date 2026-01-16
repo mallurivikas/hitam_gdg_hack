@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Health Check - 2 Minute Assessment</title>
+  <meta name="description" content="Get instant health insights in under 2 minutes with our quick health check.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 3rem 1rem;">
+    <div class="max-w-3xl" style="margin: 0 auto;">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(245, 158, 11, 0.1); color: var(--accent); padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 600; margin-bottom: 1rem; font-size: 0.875rem;">
+          <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          Quick Assessment
+        </div>
+        <h1 class="mb-4">2-Minute Health Check</h1>
+        <p class="text-muted" style="font-size: 1.125rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Get instant health insights in under 2 minutes
+        </p>
+      </div>
+
+      <form id="quick-check-form" class="card" style="padding: 2rem; box-shadow: var(--shadow-elevated);">
+        <div class="space-y-6">
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Age: <span id="age-value">30</span></label>
+              <input type="range" id="age" class="slider" min="1" max="120" value="30">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender *</label>
+              <select id="gender" class="form-select" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Height: <span id="height-value">170</span> cm</label>
+              <input type="range" id="height" class="slider" min="50" max="250" value="170">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Weight: <span id="weight-value">70</span> kg</label>
+              <input type="range" id="weight" class="slider" min="20" max="300" value="70">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Systolic BP: <span id="systolic-value">120</span> mmHg</label>
+              <input type="range" id="systolic" class="slider" min="60" max="250" value="120">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Diastolic BP: <span id="diastolic-value">80</span> mmHg</label>
+              <input type="range" id="diastolic" class="slider" min="40" max="150" value="80">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Blood Glucose: <span id="glucose-value">90</span> mg/dL</label>
+              <input type="range" id="glucose" class="slider" min="30" max="500" value="90">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cholesterol: <span id="cholesterol-value">180</span> mg/dL</label>
+              <input type="range" id="cholesterol" class="slider" min="100" max="500" value="180">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Smoking Status</label>
+              <select id="smoking" class="form-select">
+                <option value="">Select</option>
+                <option value="never">Never</option>
+                <option value="former">Former</option>
+                <option value="current">Current</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Physical Activity</label>
+              <select id="activity" class="form-select">
+                <option value="">Select</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+                <option value="veryHigh">Very High</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- BMI Display -->
+          <div class="card" style="background: rgba(14, 165, 233, 0.05); border-color: rgba(14, 165, 233, 0.2); padding: 1rem; text-align: center;">
+            <p style="font-size: 1.125rem;">
+              <span class="font-semibold">BMI:</span> 
+              <span id="bmi-display" class="text-primary font-bold" style="font-size: 1.25rem;">24.2</span>
+            </p>
+          </div>
+
+          <div class="flex justify-center" style="padding-top: 1.5rem;">
+            <button type="submit" class="btn btn-accent btn-lg">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Get Instant Results
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  <script>
+    // Update slider values in real-time
+    function updateSliderDisplay(sliderId, displayId, suffix = '') {
+      const slider = document.getElementById(sliderId);
+      const display = document.getElementById(displayId);
+      
+      slider.addEventListener('input', function() {
+        display.textContent = this.value + suffix;
+        updateBMI();
+      });
+    }
+
+    function updateBMI() {
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      const bmi = calculateBMI(weight, height);
+      document.getElementById('bmi-display').textContent = bmi;
+    }
+
+    // Initialize slider displays
+    document.addEventListener('DOMContentLoaded', function() {
+      updateSliderDisplay('age', 'age-value');
+      updateSliderDisplay('height', 'height-value', ' cm');
+      updateSliderDisplay('weight', 'weight-value', ' kg');
+      updateSliderDisplay('systolic', 'systolic-value', ' mmHg');
+      updateSliderDisplay('diastolic', 'diastolic-value', ' mmHg');
+      updateSliderDisplay('glucose', 'glucose-value', ' mg/dL');
+      updateSliderDisplay('cholesterol', 'cholesterol-value', ' mg/dL');
+      
+      updateBMI();
+
+      // Form submission
+      document.getElementById('quick-check-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!document.getElementById('gender').value) {
+          showToast('Error', 'Please select your gender', 'danger');
+          return;
+        }
+
+        const formData = {
+          age: document.getElementById('age').value,
+          gender: document.getElementById('gender').value,
+          height: document.getElementById('height').value,
+          weight: document.getElementById('weight').value,
+          systolicBP: document.getElementById('systolic').value,
+          diastolicBP: document.getElementById('diastolic').value,
+          bloodGlucose: document.getElementById('glucose').value,
+          totalCholesterol: document.getElementById('cholesterol').value,
+          smoking: document.getElementById('smoking').value,
+          activity: document.getElementById('activity').value
+        };
+
+        console.log('Quick Check Data:', formData);
+        showToast('Success!', 'Processing your quick health check...', 'success');
+        
+        // Simulate processing
+        setTimeout(() => {
+          window.location.href = 'results.html';
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+

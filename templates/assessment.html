@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Health Assessment</title>
+  <meta name="description" content="Fill out comprehensive health assessment for accurate risk analysis.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+  <style>
+    .assessment-section {
+      margin-bottom: 2rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 3rem 1rem;">
+    <div class="max-w-4xl" style="margin: 0 auto;">
+      <!-- Page Header -->
+      <div class="text-center mb-12">
+        <h1 class="mb-4">Complete Health Assessment</h1>
+        <p class="text-muted" style="font-size: 1.125rem;">
+          Fill out all sections for the most accurate health risk analysis
+        </p>
+      </div>
+
+      <form id="assessment-form">
+        <!-- Basic Information -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(14, 165, 233, 0.1); color: var(--primary);">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Basic Information</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Age: <span id="age-display">30</span> years</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="age" class="slider" min="1" max="120" value="30" style="flex: 1;">
+                <input type="number" id="age-input" class="form-input" min="1" max="120" value="30" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Gender *</label>
+              <select id="gender" class="form-select" required>
+                <option value="">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Height: <span id="height-display">170</span> cm</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="height" class="slider" min="50" max="250" value="170" style="flex: 1;">
+                <input type="number" id="height-input" class="form-input" min="50" max="250" value="170" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Weight: <span id="weight-display">70</span> kg</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="weight" class="slider" min="20" max="300" value="70" style="flex: 1;">
+                <input type="number" id="weight-input" class="form-input" min="20" max="300" value="70" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <div class="card" style="background: rgba(14, 165, 233, 0.05); border-color: rgba(14, 165, 233, 0.2); padding: 1rem; text-align: center;">
+                <p style="font-size: 1.125rem;">
+                  <span class="font-semibold">BMI:</span>
+                  <span id="bmi-display" class="text-primary font-bold" style="font-size: 1.25rem;">24.2</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vital Signs -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Vital Signs</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Systolic BP: <span id="systolic-display">120</span> mmHg *</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="systolic" class="slider" min="60" max="250" value="120" style="flex: 1;">
+                <input type="number" id="systolic-input" class="form-input" min="60" max="250" value="120" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Diastolic BP: <span id="diastolic-display">80</span> mmHg *</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="diastolic" class="slider" min="40" max="150" value="80" style="flex: 1;">
+                <input type="number" id="diastolic-input" class="form-input" min="40" max="150" value="80" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Resting Heart Rate: <span id="resting-hr-display">70</span> bpm</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="resting-hr" class="slider" min="40" max="200" value="70" style="flex: 1;">
+                <input type="number" id="resting-hr-input" class="form-input" min="40" max="200" value="70" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Max Heart Rate: <span id="max-hr-display">180</span> bpm</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="max-hr" class="slider" min="60" max="250" value="180" style="flex: 1;">
+                <input type="number" id="max-hr-input" class="form-input" min="60" max="250" value="180" style="width: 5rem;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blood Tests -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Blood Tests</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Blood Glucose: <span id="glucose-display">90</span> mg/dL *</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="glucose" class="slider" min="30" max="500" value="90" style="flex: 1;">
+                <input type="number" id="glucose-input" class="form-input" min="30" max="500" value="90" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Total Cholesterol: <span id="cholesterol-display">180</span> mg/dL *</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="cholesterol" class="slider" min="100" max="500" value="180" style="flex: 1;">
+                <input type="number" id="cholesterol-input" class="form-input" min="100" max="500" value="180" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">LDL Cholesterol: <span id="ldl-display">100</span> mg/dL</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="ldl" class="slider" min="20" max="400" value="100" style="flex: 1;">
+                <input type="number" id="ldl-input" class="form-input" min="20" max="400" value="100" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">HDL Cholesterol: <span id="hdl-display">50</span> mg/dL</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="hdl" class="slider" min="20" max="150" value="50" style="flex: 1;">
+                <input type="number" id="hdl-input" class="form-input" min="20" max="150" value="50" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Triglycerides: <span id="triglycerides-display">150</span> mg/dL</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="triglycerides" class="slider" min="30" max="1000" value="150" style="flex: 1;">
+                <input type="number" id="triglycerides-input" class="form-input" min="30" max="1000" value="150" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Insulin Level: <span id="insulin-display">10</span></label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="insulin" class="slider" min="0" max="300" value="10" style="flex: 1;">
+                <input type="number" id="insulin-input" class="form-input" min="0" max="300" value="10" style="width: 5rem;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lifestyle Factors -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Lifestyle Factors</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Smoking Status</label>
+              <select id="smoking" class="form-select">
+                <option value="">Select</option>
+                <option value="never">Never</option>
+                <option value="former">Former</option>
+                <option value="current">Current</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Alcohol Consumption</label>
+              <select id="alcohol" class="form-select">
+                <option value="">Select</option>
+                <option value="none">None</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Physical Activity Level</label>
+              <select id="activity" class="form-select">
+                <option value="">Select</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+                <option value="veryHigh">Very High</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Sleep Hours: <span id="sleep-display">7</span> hours</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="sleep" class="slider" min="1" max="16" value="7" style="flex: 1;">
+                <input type="number" id="sleep-input" class="form-input" min="1" max="16" value="7" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Stress Level</label>
+              <select id="stress" class="form-select">
+                <option value="">Select</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+                <option value="veryHigh">Very High</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Salt Intake</label>
+              <select id="salt" class="form-select">
+                <option value="">Select</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diet & Nutrition -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Diet & Nutrition</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Vegetable Servings/Day: <span id="vegetables-display">3</span></label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="vegetables" class="slider" min="0" max="10" value="3" style="flex: 1;">
+                <input type="number" id="vegetables-input" class="form-input" min="0" max="10" value="3" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Main Meals/Day: <span id="meals-display">3</span></label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="meals" class="slider" min="1" max="6" value="3" style="flex: 1;">
+                <input type="number" id="meals-input" class="form-input" min="1" max="6" value="3" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Water Intake: <span id="water-display">2</span> liters/day</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="water" class="slider" min="0" max="8" step="0.5" value="2" style="flex: 1;">
+                <input type="number" id="water-input" class="form-input" min="0" max="8" step="0.5" value="2" style="width: 5rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Frequent High-Calorie Food</label>
+              <select id="high-calorie" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Food Between Meals</label>
+              <select id="snacking" class="form-select">
+                <option value="">Select</option>
+                <option value="never">Never</option>
+                <option value="sometimes">Sometimes</option>
+                <option value="frequently">Frequently</option>
+                <option value="always">Always</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Calorie Monitoring</label>
+              <select id="calorie-monitoring" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Family History -->
+        <div class="card assessment-section">
+          <div class="section-header">
+            <div class="section-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+              <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 700;">Family History</h2>
+          </div>
+
+          <div class="grid md:grid-cols-2">
+            <div class="form-group">
+              <label class="form-label">Family History of Diabetes</label>
+              <select id="family-diabetes" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Family History of Hypertension</label>
+              <select id="family-hypertension" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Family History of Overweight</label>
+              <select id="family-overweight" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Personal Diabetes Status</label>
+              <select id="personal-diabetes" class="form-select">
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="pregnancy-field" style="display: none;">
+              <label class="form-label">Number of Pregnancies: <span id="pregnancies-display">0</span></label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <input type="range" id="pregnancies" class="slider" min="0" max="20" value="0" style="flex: 1;">
+                <input type="number" id="pregnancies-input" class="form-input" min="0" max="20" value="0" style="width: 5rem;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+          <button type="submit" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 1rem 3rem; font-size: 1.125rem; box-shadow: var(--shadow-elevated);">
+            Analyze My Health
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  <script>
+    // Update all slider displays
+    const sliders = {
+      'age': { display: 'age-display', suffix: '' },
+      'height': { display: 'height-display', suffix: '' },
+      'weight': { display: 'weight-display', suffix: '' },
+      'systolic': { display: 'systolic-display', suffix: '' },
+      'diastolic': { display: 'diastolic-display', suffix: '' },
+      'resting-hr': { display: 'resting-hr-display', suffix: '' },
+      'max-hr': { display: 'max-hr-display', suffix: '' },
+      'glucose': { display: 'glucose-display', suffix: '' },
+      'cholesterol': { display: 'cholesterol-display', suffix: '' },
+      'ldl': { display: 'ldl-display', suffix: '' },
+      'hdl': { display: 'hdl-display', suffix: '' },
+      'triglycerides': { display: 'triglycerides-display', suffix: '' },
+      'insulin': { display: 'insulin-display', suffix: '' },
+      'sleep': { display: 'sleep-display', suffix: '' },
+      'vegetables': { display: 'vegetables-display', suffix: '' },
+      'meals': { display: 'meals-display', suffix: '' },
+      'water': { display: 'water-display', suffix: '' },
+      'pregnancies': { display: 'pregnancies-display', suffix: '' }
+    };
+
+    function updateBMI() {
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      const bmi = calculateBMI(weight, height);
+      document.getElementById('bmi-display').textContent = bmi;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize all sliders with two-way sync between slider and input
+      Object.keys(sliders).forEach(key => {
+        const slider = document.getElementById(key);
+        const input = document.getElementById(key + '-input');
+        const config = sliders[key];
+        
+        if (slider && input) {
+          // Slider updates input and display
+          slider.addEventListener('input', function() {
+            const value = this.value;
+            input.value = value;
+            document.getElementById(config.display).textContent = value + config.suffix;
+            if (key === 'height' || key === 'weight') {
+              updateBMI();
+            }
+          });
+
+          // Input updates slider and display
+          input.addEventListener('input', function() {
+            const value = parseFloat(this.value) || 0;
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
+            
+            // Clamp value to slider range
+            const clampedValue = Math.min(Math.max(value, min), max);
+            
+            slider.value = clampedValue;
+            this.value = clampedValue;
+            document.getElementById(config.display).textContent = clampedValue + config.suffix;
+            if (key === 'height' || key === 'weight') {
+              updateBMI();
+            }
+          });
+        }
+      });
+
+      // Show/hide pregnancy field based on gender
+      document.getElementById('gender').addEventListener('change', function() {
+        const pregnancyField = document.getElementById('pregnancy-field');
+        if (this.value === 'female') {
+          pregnancyField.style.display = 'block';
+        } else {
+          pregnancyField.style.display = 'none';
+        }
+      });
+
+      // Form submission
+      document.getElementById('assessment-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!document.getElementById('gender').value) {
+          showToast('Error', 'Please select your gender', 'danger');
+          return;
+        }
+
+        showToast('Processing...', 'Analyzing your health data with AI...', 'info');
+        
+        // Collect all form data
+        const formData = {
+          // Basic information
+          age: document.getElementById('age').value,
+          gender: document.getElementById('gender').value,
+          height: document.getElementById('height').value,
+          weight: document.getElementById('weight').value,
+          
+          // Vital signs
+          systolic_bp: document.getElementById('systolic').value,
+          diastolic_bp: document.getElementById('diastolic').value,
+          resting_heart_rate: document.getElementById('resting-hr').value,
+          max_heart_rate: document.getElementById('max-hr').value,
+          
+          // Blood tests
+          glucose: document.getElementById('glucose').value,
+          cholesterol: document.getElementById('cholesterol').value,
+          ldl: document.getElementById('ldl').value,
+          hdl: document.getElementById('hdl').value,
+          triglycerides: document.getElementById('triglycerides').value,
+          insulin: document.getElementById('insulin').value,
+          
+          // Lifestyle
+          smoking_status: document.getElementById('smoking').value,
+          alcohol_consumption: document.getElementById('alcohol').value,
+          physical_activity_level: document.getElementById('activity').value,
+          sleep_hours: document.getElementById('sleep').value,
+          stress_level: document.getElementById('stress').value,
+          salt_intake: document.getElementById('salt').value,
+          
+          // Diet
+          vegetable_consumption_frequency: document.getElementById('vegetables').value,
+          num_main_meals: document.getElementById('meals').value,
+          daily_water_consumption: document.getElementById('water').value,
+          frequent_high_caloric_food: document.getElementById('high-calorie').value,
+          food_consumption_between_meals: document.getElementById('snacking').value,
+          calorie_consumption_monitoring: document.getElementById('calorie-monitoring').value,
+          
+          // Family history
+          family_history_diabetes: document.getElementById('family-diabetes').value,
+          family_history_hypertension: document.getElementById('family-hypertension').value,
+          family_history_overweight: document.getElementById('family-overweight').value,
+          personal_diabetes: document.getElementById('personal-diabetes').value,
+          pregnancies: document.getElementById('pregnancies').value
+        };
+
+        console.log('Submitting Assessment Data:', formData);
+        
+        try {
+          // Send to Flask API
+          const response = await fetch('/api/assess', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            showToast('Success!', 'Assessment complete! Redirecting to results...', 'success');
+            // Redirect to results page
+            setTimeout(() => {
+              window.location.href = result.redirect_url || '/results';
+            }, 1000);
+          } else {
+            showToast('Error', result.error || 'Assessment failed. Please try again.', 'danger');
+          }
+        } catch (error) {
+          console.error('Assessment error:', error);
+          showToast('Error', 'Failed to process assessment. Please check your connection.', 'danger');
+        }
+      });
+
+      updateBMI();
+    });
+  </script>
+</body>
+</html>
+
+
+
+

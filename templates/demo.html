@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo - Sample Health Assessment</title>
+  <meta name="description" content="Explore how Health AI analyzes a high-risk patient profile with sample results.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 3rem 1rem;">
+    <div class="max-w-6xl" style="margin: 0 auto;">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="mb-4">Demo: Sample Health Assessment</h1>
+        <p class="text-muted" style="font-size: 1.125rem;">
+          Explore how Health AI analyzes a high-risk patient profile
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2">
+        <!-- Sample Patient Profile -->
+        <div class="space-y-6">
+          <div class="card">
+            <h2 class="mb-6 flex items-center gap-3" style="font-size: 1.5rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              Sample Patient Profile
+            </h2>
+
+            <div class="space-y-4">
+              <div class="grid grid-cols-3">
+                <div style="text-align: center; padding: 0.75rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.03);">
+                  <div class="text-muted mb-1" style="font-size: 0.875rem;">Age</div>
+                  <div style="font-size: 1.25rem; font-weight: 700;">55</div>
+                </div>
+                <div style="text-align: center; padding: 0.75rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.03);">
+                  <div class="text-muted mb-1" style="font-size: 0.875rem;">Gender</div>
+                  <div style="font-size: 1.25rem; font-weight: 700;">Male</div>
+                </div>
+                <div style="text-align: center; padding: 0.75rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.03);">
+                  <div class="text-muted mb-1" style="font-size: 0.875rem;">BMI</div>
+                  <div style="font-size: 1.25rem; font-weight: 700; color: var(--warning);">29.8</div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-3 flex items-center gap-2">
+                  <svg style="width: 1rem; height: 1rem; color: var(--danger);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                  Risk Indicators
+                </h3>
+                <div class="space-y-2">
+                  <div class="flex items-center justify-between" style="padding: 0.75rem; border-radius: 0.5rem; background: rgba(0, 0, 0, 0.02);">
+                    <span class="font-medium">Elevated BP</span>
+                    <div class="flex items-center gap-2">
+                      <span class="text-muted" style="font-size: 0.875rem;">145/92</span>
+                      <span class="badge badge-danger">critical</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding: 0.75rem; border-radius: 0.5rem; background: rgba(0, 0, 0, 0.02);">
+                    <span class="font-medium">High Glucose</span>
+                    <div class="flex items-center gap-2">
+                      <span class="text-muted" style="font-size: 0.875rem;">156 mg/dL</span>
+                      <span class="badge badge-danger">high</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding: 0.75rem; border-radius: 0.5rem; background: rgba(0, 0, 0, 0.02);">
+                    <span class="font-medium">High Cholesterol</span>
+                    <div class="flex items-center gap-2">
+                      <span class="text-muted" style="font-size: 0.875rem;">245 mg/dL</span>
+                      <span class="badge badge-warning">moderate</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between" style="padding: 0.75rem; border-radius: 0.5rem; background: rgba(0, 0, 0, 0.02);">
+                    <span class="font-medium">Current Smoker</span>
+                    <div class="flex items-center gap-2">
+                      <span class="text-muted" style="font-size: 0.875rem;">Yes</span>
+                      <span class="badge badge-danger">critical</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-3">Lifestyle Factors</h3>
+                <div class="grid grid-cols-2 gap-2">
+                  <div style="padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <div class="font-medium mb-1">Physical Activity</div>
+                    <div class="text-muted">Low</div>
+                  </div>
+                  <div style="padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <div class="font-medium mb-1">Sleep</div>
+                    <div class="text-muted">5 hrs/night</div>
+                  </div>
+                  <div style="padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <div class="font-medium mb-1">Stress Level</div>
+                    <div class="text-muted">High</div>
+                  </div>
+                  <div style="padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; background: rgba(0, 0, 0, 0.02);">
+                    <div class="font-medium mb-1">Alcohol</div>
+                    <div class="text-muted">Moderate</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-3">Family History</h3>
+                <div class="flex flex-wrap gap-2">
+                  <span class="badge badge-outline">Diabetes</span>
+                  <span class="badge badge-outline">Hypertension</span>
+                  <span class="badge badge-outline">Heart Disease</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expected Results -->
+        <div class="space-y-6">
+          <div class="card" style="padding: 2rem; box-shadow: var(--shadow-elevated); border: 2px solid var(--danger);">
+            <h2 class="mb-6" style="font-size: 1.5rem;">Expected Results</h2>
+
+            <!-- Overall Score -->
+            <div class="mb-8" style="padding: 1.5rem; border-radius: 1rem; background: linear-gradient(to bottom right, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1)); border: 1px solid rgba(239, 68, 68, 0.2);">
+              <div class="text-center">
+                <div style="font-size: 4rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--danger);">42</div>
+                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">Grade: D</div>
+                <div class="text-muted">Critical Health Risk Level</div>
+              </div>
+            </div>
+
+            <!-- Individual Risks -->
+            <div class="space-y-4">
+              <h3 class="font-semibold mb-4">Individual Risk Analysis</h3>
+              
+              <div style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.02);">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <svg style="width: 1.25rem; height: 1.25rem; color: #ef4444;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <span class="font-semibold">Heart Disease</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold" style="font-size: 1.125rem;">78%</span>
+                    <span class="badge badge-danger">Very High</span>
+                  </div>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar danger" style="width: 78%;"></div>
+                </div>
+              </div>
+
+              <div style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.02);">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <svg style="width: 1.25rem; height: 1.25rem; color: #f59e0b;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                    <span class="font-semibold">Diabetes</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold" style="font-size: 1.125rem;">65%</span>
+                    <span class="badge badge-danger">High</span>
+                  </div>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar danger" style="width: 65%;"></div>
+                </div>
+              </div>
+
+              <div style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.02);">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <svg style="width: 1.25rem; height: 1.25rem; color: #a855f7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="font-semibold">Hypertension</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold" style="font-size: 1.125rem;">72%</span>
+                    <span class="badge badge-danger">Very High</span>
+                  </div>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar danger" style="width: 72%;"></div>
+                </div>
+              </div>
+
+              <div style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.02);">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <svg style="width: 1.25rem; height: 1.25rem; color: #06b6d4;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+                    </svg>
+                    <span class="font-semibold">Obesity</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold" style="font-size: 1.125rem;">58%</span>
+                    <span class="badge badge-danger">High</span>
+                  </div>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar danger" style="width: 58%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Takeaways -->
+            <div class="mt-6" style="padding: 1.5rem; border-radius: 1rem; background: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.2);">
+              <h4 class="font-semibold mb-3 flex items-center gap-2">
+                <svg style="width: 1.25rem; height: 1.25rem; color: var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+                Key Takeaways
+              </h4>
+              <ul style="list-style: none; font-size: 0.875rem;" class="space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="text-danger" style="margin-top: 0.25rem;">•</span>
+                  <span>Multiple high-risk factors require immediate medical attention</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-danger" style="margin-top: 0.25rem;">•</span>
+                  <span>Lifestyle modifications crucial: quit smoking, increase physical activity</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-danger" style="margin-top: 0.25rem;">•</span>
+                  <span>Blood pressure and glucose management essential</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-warning" style="margin-top: 0.25rem;">•</span>
+                  <span>Regular monitoring and follow-up appointments recommended</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational Content -->
+      <div class="card mt-12 bg-gradient-card">
+        <h2 class="mb-4" style="font-size: 1.5rem;">Why This Demo Matters</h2>
+        <p class="text-muted mb-6 leading-relaxed">
+          This sample profile demonstrates how Health AI identifies and quantifies multiple risk factors to provide a comprehensive health assessment. 
+          The combination of elevated vital signs, poor lifestyle habits, and family history creates a compounding risk that our AI model accurately captures.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/assessment" class="btn btn-primary btn-lg">
+            Take Your Own Assessment
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+          <a href="/about" class="btn btn-outline btn-lg">
+            Learn More About Health AI
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  </body>
+</html>
+
+
+
+

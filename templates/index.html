@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health AI - AI-Powered Health Risk Assessment</title>
+  <meta name="description" content="Get instant health insights with AI-powered risk assessment for heart disease, diabetes, hypertension, and obesity.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <!-- Hero Section -->
+  <section class="section-hero bg-gradient-hero">
+    <div class="container" style="padding-top: 5rem; padding-bottom: 5rem; position: relative;">
+      <div class="hero-content">
+        <div>
+          <!-- Rating -->
+          <div class="hero-rating">
+            <div class="hero-stars">
+              ★★★★★
+            </div>
+            <span style="color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; font-weight: 500;">4.9 Star | 12K+ User Reviews</span>
+          </div>
+
+          <h1 class="hero-title">
+            Because Health Assessment is Complicated Enough. 🏥
+          </h1>
+
+          <p class="hero-subtitle">
+            Try Health Metrics Build your health database using Machine Learning & AI for free.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="hero-cta">
+            <a href="/assessment" class="btn btn-accent btn-lg">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+              Take Assessment
+            </a>
+            <a href="/sample-demo" class="btn btn-outline btn-lg" style="background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: white; backdrop-filter: blur(10px);">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+              Watch Demo
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-value">200K+</div>
+              <div class="stat-label">Assessments Completed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">120+</div>
+              <div class="stat-label">Health Metrics Analyzed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">80+</div>
+              <div class="stat-label">Countries Served</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Image Placeholder -->
+        <div class="decorative-shape" style="display: none;">
+          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+            <svg class="icon" style="width: 8rem; height: 8rem; color: rgba(255, 255, 255, 0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Reasons Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-12">3 Reasons To Choose Us</h2>
+      
+      <div class="grid md:grid-cols-3">
+        <div class="card">
+          <div class="card-icon">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4">24/7 Support</h3>
+          <p class="text-muted mb-6 leading-relaxed">
+            Get instant health insights anytime, anywhere with our AI-powered platform.
+          </p>
+          <a href="/about" class="flex items-center gap-2 text-primary font-semibold" style="text-decoration: none; transition: gap 0.2s;">
+            Read More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4">Top Guide</h3>
+          <p class="text-muted mb-6 leading-relaxed">
+            Evidence-based recommendations from the latest medical research and guidelines.
+          </p>
+          <a href="/about" class="flex items-center gap-2 text-primary font-semibold" style="text-decoration: none;">
+            Read More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4">Best Analysis</h3>
+          <p class="text-muted mb-6 leading-relaxed">
+            Comprehensive risk assessment using advanced machine learning models.
+          </p>
+          <a href="/about" class="flex items-center gap-2 text-primary font-semibold" style="text-decoration: none;">
+            Read More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Steps Section -->
+  <section class="section section-bg-secondary">
+    <div class="container">
+      <h2 class="text-center mb-12">
+        Follow These 3 Simple Steps to Get Your Health Assessment!
+      </h2>
+
+      <div class="grid lg:grid-cols-2" style="align-items: center;">
+        <!-- Steps -->
+        <div class="space-y-6">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="flex items-start gap-4">
+              <div class="step-number">01</div>
+              <div>
+                <h3 class="mb-2" style="font-size: 1.25rem;">Choose Best Assessment For You</h3>
+                <p class="text-muted">Select from full health assessment or quick 2-minute check based on your needs.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="flex items-start gap-4">
+              <div class="step-number">02</div>
+              <div>
+                <h3 class="mb-2" style="font-size: 1.25rem;">Active Learning Engagement</h3>
+                <p class="text-muted">Input your health data through our intuitive, user-friendly interface.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="flex items-start gap-4">
+              <div class="step-number">03</div>
+              <div>
+                <h3 class="mb-2" style="font-size: 1.25rem;">Joining Course Made Easy</h3>
+                <p class="text-muted">Receive instant, personalized health insights and actionable recommendations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Placeholder -->
+        <div style="position: relative;">
+          <div style="position: relative; width: 100%; height: 400px; border-radius: 3rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); overflow: hidden; box-shadow: var(--shadow-elevated);">
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+              <svg class="icon" style="width: 8rem; height: 8rem; color: rgba(255, 255, 255, 0.3);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <div style="position: absolute; top: 2rem; right: 2rem; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1.5rem; color: white; font-weight: 700;">
+              160+
+              <div style="font-size: 0.875rem; font-weight: normal; opacity: 0.9;">Health Metrics</div>
+            </div>
+            <div style="position: absolute; bottom: 2rem; left: 2rem; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1.5rem; color: white; font-weight: 700;">
+              500+
+              <div style="font-size: 0.875rem; font-weight: normal; opacity: 0.9;">Successful Reports</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Health Conditions Section -->
+  <section class="section bg-gradient-hero text-white">
+    <div class="container">
+      <h2 class="text-center mb-4">Our Popular Health Assessments For You</h2>
+      <p class="text-center mb-12" style="font-size: 1.125rem; max-width: 42rem; margin-left: auto; margin-right: auto; opacity: 0.8;">
+        Comprehensive AI-powered analysis of your health risks across multiple conditions
+      </p>
+
+      <div class="grid md:grid-cols-3">
+        <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-color: rgba(255, 255, 255, 0.2);">
+          <div style="width: 4rem; height: 4rem; border-radius: 1rem; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: #ef4444; margin-bottom: 1.5rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4 text-white">Heart Disease</h3>
+          <p class="mb-6 leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">
+            Comprehensive cardiovascular risk analysis using vital signs and lifestyle factors.
+          </p>
+          <a href="/assessment" class="flex items-center gap-2 font-semibold" style="color: var(--accent); text-decoration: none;">
+            Learn More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-color: rgba(255, 255, 255, 0.2);">
+          <div style="width: 4rem; height: 4rem; border-radius: 1rem; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: #f59e0b; margin-bottom: 1.5rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4 text-white">Diabetes Risk</h3>
+          <p class="mb-6 leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">
+            Blood glucose and insulin resistance assessment with personalized guidance.
+          </p>
+          <a href="/assessment" class="flex items-center gap-2 font-semibold" style="color: var(--accent); text-decoration: none;">
+            Learn More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+
+        <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-color: rgba(255, 255, 255, 0.2);">
+          <div style="width: 4rem; height: 4rem; border-radius: 1rem; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: #a855f7; margin-bottom: 1.5rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4 text-white">Hypertension</h3>
+          <p class="mb-6 leading-relaxed" style="color: rgba(255, 255, 255, 0.8);">
+            Blood pressure analysis with lifestyle modification recommendations.
+          </p>
+          <a href="/assessment" class="flex items-center gap-2 font-semibold" style="color: var(--accent); text-decoration: none;">
+            Learn More
+            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="/assessment" class="btn btn-accent btn-lg">
+          Start Your Assessment Now
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  </body>
+</html>
+
+
+
+

@@ -1,0 +1,642 @@
+/* Results Page Specific Styles */
+
+.results-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Health Score Card */
+.health-score-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.score-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.assessment-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.score-content {
+    display: flex;
+    justify-content: center;
+}
+
+.overall-score {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.score-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.score-grade {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.score-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.risk-level {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    display: inline-block;
+}
+
+.score-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 300px;
+}
+
+/* Risk Breakdown */
+.risk-breakdown {
+    margin-bottom: 2rem;
+}
+
+.risk-breakdown h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.risk-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.risk-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid;
+}
+
+.risk-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.risk-card.heart-risk {
+    border-left-color: #ef4444;
+}
+
+.risk-card.diabetes-risk {
+    border-left-color: #f59e0b;
+}
+
+.risk-card.hypertension-risk {
+    border-left-color: #8b5cf6;
+}
+
+.risk-card.obesity-risk {
+    border-left-color: #06b6d4;
+}
+
+.risk-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.risk-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.heart-risk .risk-icon {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.diabetes-risk .risk-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.hypertension-risk .risk-icon {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.obesity-risk .risk-icon {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+}
+
+.risk-title {
+    flex: 1;
+}
+
+.risk-title h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.risk-title p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.risk-percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.risk-meter {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.meter-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+    position: relative;
+}
+
+.heart-fill {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.diabetes-fill {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.hypertension-fill {
+    background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+.obesity-fill {
+    background: linear-gradient(90deg, #06b6d4, #0891b2);
+}
+
+.risk-status {
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+    margin-bottom: 2rem;
+}
+
+.recommendations-section h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.recommendation-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border-left: 4px solid;
+}
+
+.recommendation-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.recommendation-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.recommendation-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.recommendation-content {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.recommendation-content ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.recommendation-content li {
+    margin-bottom: 0.25rem;
+}
+
+/* Chart Section */
+.chart-section {
+    margin-bottom: 2rem;
+}
+
+.chart-section h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chart-container {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: center;
+    max-height: 400px;
+}
+
+/* Action Items */
+.action-items {
+    margin-bottom: 2rem;
+}
+
+.action-items h3 {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.action-list {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.action-item:last-child {
+    border-bottom: none;
+}
+
+.action-priority {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.priority-high {
+    background: var(--danger-color);
+}
+
+.priority-medium {
+    background: var(--warning-color);
+}
+
+.priority-low {
+    background: var(--success-color);
+}
+
+.action-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.action-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Medical Disclaimer */
+.medical-disclaimer {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid #fbbf24;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.disclaimer-content {
+    display: flex;
+    gap: 1rem;
+}
+
+.disclaimer-content i {
+    color: #d97706;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+.disclaimer-content h4 {
+    color: #92400e;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.disclaimer-content p {
+    color: #78350f;
+    line-height: 1.6;
+}
+
+/* Result Actions */
+.result-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.action-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.action-btn.primary {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.action-btn.secondary {
+    background: var(--success-color);
+    color: white;
+}
+
+.action-btn.tertiary {
+    background: var(--border-color);
+    color: var(--text-primary);
+}
+
+.action-btn.quaternary {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* No Results State */
+.no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+}
+
+.no-results-content {
+    max-width: 500px;
+    padding: 2rem;
+}
+
+.no-results-content i {
+    font-size: 4rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.no-results-content h2 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.no-results-content p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.no-results-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Loading Results */
+.loading-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+}
+
+.loading-content h3 {
+    color: var(--primary-color);
+    margin: 1rem 0;
+}
+
+.loading-content p {
+    color: var(--text-secondary);
+}
+
+/* Risk Level Colors */
+.risk-low {
+    background: var(--success-color);
+    color: white;
+}
+
+.risk-moderate {
+    background: var(--warning-color);
+    color: white;
+}
+
+.risk-high {
+    background: var(--danger-color);
+    color: white;
+}
+
+.risk-critical {
+    background: #7c2d12;
+    color: white;
+}
+
+/* Animations */
+@keyframes fillMeter {
+    from {
+        width: 0%;
+    }
+    to {
+        width: var(--target-width);
+    }
+}
+
+.meter-fill.animate {
+    animation: fillMeter 1.5s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .results-container {
+        padding: 1rem;
+    }
+    
+    .overall-score {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .score-circle {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .score-number {
+        font-size: 2.5rem;
+    }
+    
+    .risk-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .chart-container {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .score-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .health-score-card {
+        padding: 1.5rem;
+    }
+    
+    .risk-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .risk-percentage {
+        align-self: flex-end;
+    }
+}

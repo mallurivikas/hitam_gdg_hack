@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Health Assessment Results | Health AI</title>
+  <meta name="description" content="View your comprehensive health risk assessment results with personalized recommendations.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 3rem 1rem;">
+    <div class="max-w-6xl" style="margin: 0 auto;">
+      
+      {% if has_results %}
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="mb-4">🎯 Your Health Assessment Results</h1>
+        <p class="text-muted" style="font-size: 1.125rem;">
+          Comprehensive AI-powered analysis based on your health data
+        </p>
+      </div>
+
+      <!-- Overall Score -->
+      <div class="card mb-8" style="padding: 3rem 2rem; text-align: center; background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(14, 165, 233, 0.02) 100%); box-shadow: var(--shadow-elevated);">
+        <h2 class="mb-6" style="font-size: 1.5rem;">Overall Health Score</h2>
+        
+        {% set score = assessment_data.health_score %}
+        {% set grade = assessment_data.health_grade %}
+        {% set risk_level = assessment_data.risk_level %}
+        
+        {% if score >= 70 %}
+          {% set score_color = "var(--success)" %}
+        {% elif score >= 50 %}
+          {% set score_color = "var(--warning)" %}
+        {% else %}
+          {% set score_color = "var(--danger)" %}
+        {% endif %}
+        
+        <div style="font-size: 6rem; font-weight: 700; color: {{ score_color }}; margin-bottom: 1rem; line-height: 1;">
+          {{ "%.0f"|format(score) }}
+          <span style="font-size: 2rem; opacity: 0.7;">/100</span>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Grade: {{ grade }}</div>
+        <p class="text-muted" style="font-size: 1.125rem; text-transform: capitalize;">{{ risk_level }} Risk Level</p>
+        <p class="text-muted mt-4" style="font-size: 0.875rem;">
+          Composite Risk Score: {{ "%.1f"|format(assessment_data.composite_risk) }}%
+        </p>
+      </div>
+
+      <!-- Individual Risks Grid -->
+      <div class="grid md:grid-cols-2 mb-8">
+        <!-- Heart Disease -->
+        {% set heart = assessment_data.individual_risks.heart_disease %}
+        {% set heart_score = heart.score %}
+        {% if heart_score < 30 %}
+          {% set heart_color = "var(--success)" %}
+          {% set heart_badge = "badge-success" %}
+        {% elif heart_score < 50 %}
+          {% set heart_color = "var(--warning)" %}
+          {% set heart_badge = "badge-warning" %}
+        {% elif heart_score < 70 %}
+          {% set heart_color = "var(--danger)" %}
+          {% set heart_badge = "badge-danger" %}
+        {% else %}
+          {% set heart_color = "#dc2626" %}
+          {% set heart_badge = "badge-danger" %}
+        {% endif %}
+        
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="flex items-center gap-2" style="margin: 0; font-size: 1.25rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; color: #ef4444;">
+                <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+              </div>
+              Heart Disease
+            </h3>
+            <span class="badge {{ heart_badge }}" style="font-size: 0.875rem;">{{ "%.1f"|format(heart_score) }}%</span>
+          </div>
+          <div class="progress mb-3">
+            <div class="progress-bar" style="width: {{ heart_score }}%; background: {{ heart_color }};"></div>
+          </div>
+          <p class="text-muted" style="font-size: 0.875rem; text-transform: capitalize;">
+            Risk Level: <strong>{{ heart.level }}</strong>
+          </p>
+        </div>
+
+        <!-- Diabetes -->
+        {% set diabetes = assessment_data.individual_risks.diabetes %}
+        {% set diabetes_score = diabetes.score %}
+        {% if diabetes_score < 30 %}
+          {% set diabetes_color = "var(--success)" %}
+          {% set diabetes_badge = "badge-success" %}
+        {% elif diabetes_score < 50 %}
+          {% set diabetes_color = "var(--warning)" %}
+          {% set diabetes_badge = "badge-warning" %}
+        {% else %}
+          {% set diabetes_color = "var(--danger)" %}
+          {% set diabetes_badge = "badge-danger" %}
+        {% endif %}
+        
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="flex items-center gap-2" style="margin: 0; font-size: 1.25rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; color: #f59e0b;">
+                <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                </svg>
+              </div>
+              Diabetes
+            </h3>
+            <span class="badge {{ diabetes_badge }}" style="font-size: 0.875rem;">{{ "%.1f"|format(diabetes_score) }}%</span>
+          </div>
+          <div class="progress mb-3">
+            <div class="progress-bar" style="width: {{ diabetes_score }}%; background: {{ diabetes_color }};"></div>
+          </div>
+          <p class="text-muted" style="font-size: 0.875rem; text-transform: capitalize;">
+            Risk Level: <strong>{{ diabetes.level }}</strong>
+          </p>
+        </div>
+
+        <!-- Hypertension -->
+        {% set hypertension = assessment_data.individual_risks.hypertension %}
+        {% set hypertension_score = hypertension.score %}
+        {% if hypertension_score < 30 %}
+          {% set hypertension_color = "var(--success)" %}
+          {% set hypertension_badge = "badge-success" %}
+        {% elif hypertension_score < 50 %}
+          {% set hypertension_color = "var(--warning)" %}
+          {% set hypertension_badge = "badge-warning" %}
+        {% else %}
+          {% set hypertension_color = "var(--danger)" %}
+          {% set hypertension_badge = "badge-danger" %}
+        {% endif %}
+        
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="flex items-center gap-2" style="margin: 0; font-size: 1.25rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(168, 85, 247, 0.1); display: flex; align-items: center; justify-content: center; color: #a855f7;">
+                <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              Hypertension
+            </h3>
+            <span class="badge {{ hypertension_badge }}" style="font-size: 0.875rem;">{{ "%.1f"|format(hypertension_score) }}%</span>
+          </div>
+          <div class="progress mb-3">
+            <div class="progress-bar" style="width: {{ hypertension_score }}%; background: {{ hypertension_color }};"></div>
+          </div>
+          <p class="text-muted" style="font-size: 0.875rem; text-transform: capitalize;">
+            Risk Level: <strong>{{ hypertension.level }}</strong>
+          </p>
+        </div>
+
+        <!-- Obesity -->
+        {% set obesity = assessment_data.individual_risks.obesity %}
+        {% set obesity_score = obesity.score %}
+        {% if obesity_score < 30 %}
+          {% set obesity_color = "var(--success)" %}
+          {% set obesity_badge = "badge-success" %}
+        {% elif obesity_score < 50 %}
+          {% set obesity_color = "var(--warning)" %}
+          {% set obesity_badge = "badge-warning" %}
+        {% else %}
+          {% set obesity_color = "var(--danger)" %}
+          {% set obesity_badge = "badge-danger" %}
+        {% endif %}
+        
+        <div class="card">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="flex items-center gap-2" style="margin: 0; font-size: 1.25rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(59, 130, 246, 0.1); display: flex; align-items: center; justify-content: center; color: #3b82f6;">
+                <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+                </svg>
+              </div>
+              Obesity
+            </h3>
+            <span class="badge {{ obesity_badge }}" style="font-size: 0.875rem;">{{ "%.1f"|format(obesity_score) }}%</span>
+          </div>
+          <div class="progress mb-3">
+            <div class="progress-bar" style="width: {{ obesity_score }}%; background: {{ obesity_color }};"></div>
+          </div>
+          <p class="text-muted" style="font-size: 0.875rem; text-transform: capitalize;">
+            Risk Level: <strong>{{ obesity.level }}</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card mb-8">
+        <h2 class="mb-6 flex items-center gap-3">
+          <div style="width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+            <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          Personalized Health Recommendations
+        </h2>
+        
+        <div class="space-y-4">
+          {% for recommendation in assessment_data.recommendations %}
+          {% if 'HEART' in recommendation %}
+            {% set icon_bg = "rgba(239, 68, 68, 0.1)" %}
+            {% set icon_color = "#ef4444" %}
+            {% set icon_path = "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" %}
+          {% elif 'DIABETES' in recommendation or 'BLOOD' in recommendation %}
+            {% set icon_bg = "rgba(245, 158, 11, 0.1)" %}
+            {% set icon_color = "#f59e0b" %}
+            {% set icon_path = "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" %}
+          {% elif 'PRESSURE' in recommendation %}
+            {% set icon_bg = "rgba(168, 85, 247, 0.1)" %}
+            {% set icon_color = "#a855f7" %}
+            {% set icon_path = "M13 10V3L4 14h7v7l9-11h-7z" %}
+          {% elif 'WEIGHT' in recommendation %}
+            {% set icon_bg = "rgba(59, 130, 246, 0.1)" %}
+            {% set icon_color = "#3b82f6" %}
+            {% set icon_path = "M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" %}
+          {% else %}
+            {% set icon_bg = "rgba(16, 185, 129, 0.1)" %}
+            {% set icon_color = "#10b981" %}
+            {% set icon_path = "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" %}
+          {% endif %}
+          
+          <div class="flex items-start gap-3" style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.02); border-left: 3px solid {{ icon_color }};">
+            <div style="width: 2rem; height: 2rem; border-radius: 0.5rem; background: {{ icon_bg }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg style="width: 1.25rem; height: 1.25rem; color: {{ icon_color }};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ icon_path }}"></path>
+              </svg>
+            </div>
+            <div style="flex: 1;">
+              <p style="margin: 0; line-height: 1.6; white-space: pre-line;">{{ recommendation }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-4 justify-center mb-8" style="flex-wrap: wrap;">
+        <a href="/assessment" class="btn btn-outline btn-lg">Take Full Assessment Again</a>
+        <a href="/nutrition-scanner" class="btn btn-primary btn-lg">Scan Nutrition Labels</a>
+        <a href="/" class="btn btn-accent btn-lg">Back to Home</a>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="alert alert-warning">
+        <div>
+          <strong>⚠️ Important Medical Disclaimer</strong>
+          <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+            This AI-based health assessment is for <strong>informational and educational purposes only</strong>. 
+            It should NOT be used as a substitute for professional medical advice, diagnosis, or treatment. 
+            Always consult with qualified healthcare professionals for personalized medical guidance and before making any health-related decisions.
+          </p>
+        </div>
+      </div>
+
+      {% else %}
+      <!-- No Results Available -->
+      <div class="text-center" style="padding: 4rem 1rem;">
+        <div style="width: 5rem; height: 5rem; border-radius: 1rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--primary);">
+          <svg style="width: 3rem; height: 3rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h1 class="mb-4">No Assessment Results Available</h1>
+        <p class="text-muted mb-8" style="font-size: 1.125rem; max-width: 32rem; margin-left: auto; margin-right: auto;">
+          You haven't completed a health assessment yet. Take our comprehensive assessment to get your personalized health insights.
+        </p>
+        <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+          <a href="/assessment" class="btn btn-accent btn-lg">
+            <svg style="width: 1.5rem; height: 1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            Start Full Assessment
+          </a>
+          <a href="/quick-assessment" class="btn btn-primary btn-lg">
+            Quick 2-Min Check
+          </a>
+          <a href="/sample-demo" class="btn btn-outline btn-lg">
+            View Sample Demo
+          </a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+</body>
+</html>
+
+
+
+

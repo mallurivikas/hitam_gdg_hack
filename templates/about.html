@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Health AI - How It Works</title>
+  <meta name="description" content="Learn how Health AI uses machine learning to assess your health risks across multiple conditions.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-hero text-white" style="padding: 5rem 0;">
+    <div class="container text-center">
+      <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 1.5rem;">About Health AI</h1>
+      <p style="font-size: 1.25rem; opacity: 0.9; max-width: 48rem; margin: 0 auto;">
+        Empowering individuals with AI-driven health insights for proactive wellness management
+      </p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section">
+    <div class="container">
+      <div class="grid md:grid-cols-3">
+        <div class="card text-center">
+          <div style="width: 4rem; height: 4rem; margin: 0 auto 1.5rem; border-radius: 1rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.5rem;">AI-Powered Analysis</h3>
+          <p class="text-muted leading-relaxed">Advanced machine learning models trained on millions of health records for accurate risk assessment.</p>
+        </div>
+
+        <div class="card text-center">
+          <div style="width: 4rem; height: 4rem; margin: 0 auto 1.5rem; border-radius: 1rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.5rem;">Privacy-First</h3>
+          <p class="text-muted leading-relaxed">Your health data never leaves your device. All processing happens locally with zero data storage.</p>
+        </div>
+
+        <div class="card text-center">
+          <div style="width: 4rem; height: 4rem; margin: 0 auto 1.5rem; border-radius: 1rem; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.5rem;">Evidence-Based</h3>
+          <p class="text-muted leading-relaxed">Built on peer-reviewed medical research and WHO guidelines for reliable health insights.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Health Conditions Section -->
+  <section class="section section-bg-secondary">
+    <div class="container">
+      <h2 class="text-center mb-4">Health Conditions Analyzed</h2>
+      <p class="text-center text-muted mb-12" style="font-size: 1.125rem;">
+        Comprehensive risk assessment across four major health conditions
+      </p>
+
+      <div class="grid md:grid-cols-4">
+        <div class="card">
+          <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: center; color: #ef4444; margin-bottom: 1rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.25rem;">Heart Disease</h3>
+          <div class="space-y-2" style="font-size: 0.875rem;">
+            <div class="flex justify-between">
+              <span class="text-muted">Features:</span>
+              <span class="font-semibold">35</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Accuracy:</span>
+              <span class="font-semibold text-success">94.2%</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Weight:</span>
+              <span class="font-semibold">35%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; color: #f59e0b; margin-bottom: 1rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.25rem;">Diabetes</h3>
+          <div class="space-y-2" style="font-size: 0.875rem;">
+            <div class="flex justify-between">
+              <span class="text-muted">Features:</span>
+              <span class="font-semibold">28</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Accuracy:</span>
+              <span class="font-semibold text-success">91.8%</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Weight:</span>
+              <span class="font-semibold">25%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(168, 85, 247, 0.1); display: flex; align-items: center; justify-content: center; color: #a855f7; margin-bottom: 1rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.25rem;">Hypertension</h3>
+          <div class="space-y-2" style="font-size: 0.875rem;">
+            <div class="flex justify-between">
+              <span class="text-muted">Features:</span>
+              <span class="font-semibold">22</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Accuracy:</span>
+              <span class="font-semibold text-success">89.5%</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Weight:</span>
+              <span class="font-semibold">25%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: rgba(6, 182, 212, 0.1); display: flex; align-items: center; justify-content: center; color: #06b6d4; margin-bottom: 1rem;">
+            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+            </svg>
+          </div>
+          <h3 class="mb-4" style="font-size: 1.25rem;">Obesity</h3>
+          <div class="space-y-2" style="font-size: 0.875rem;">
+            <div class="flex justify-between">
+              <span class="text-muted">Features:</span>
+              <span class="font-semibold">18</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Accuracy:</span>
+              <span class="font-semibold text-success">92.3%</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Weight:</span>
+              <span class="font-semibold">15%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-12">How It Works</h2>
+
+      <div class="max-w-4xl" style="margin: 0 auto;">
+        <div class="grid md:grid-cols-4" style="position: relative;">
+          <div class="text-center">
+            <div style="width: 4rem; height: 4rem; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">1</div>
+            <h3 class="font-bold mb-2">Input Data</h3>
+            <p class="text-muted" style="font-size: 0.875rem;">Enter your health metrics</p>
+          </div>
+
+          <div class="text-center">
+            <div style="width: 4rem; height: 4rem; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">2</div>
+            <h3 class="font-bold mb-2">AI Analysis</h3>
+            <p class="text-muted" style="font-size: 0.875rem;">ML models process your data</p>
+          </div>
+
+          <div class="text-center">
+            <div style="width: 4rem; height: 4rem; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">3</div>
+            <h3 class="font-bold mb-2">Risk Calculation</h3>
+            <p class="text-muted" style="font-size: 0.875rem;">Composite risk assessment</p>
+          </div>
+
+          <div class="text-center">
+            <div style="width: 4rem; height: 4rem; margin: 0 auto 1rem; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700;">4</div>
+            <h3 class="font-bold mb-2">Recommendations</h3>
+            <p class="text-muted" style="font-size: 0.875rem;">Personalized health insights</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scoring Methodology Section -->
+  <section class="section bg-gradient-hero text-white">
+    <div class="container">
+      <h2 class="text-center mb-12">Scoring Methodology</h2>
+
+      <div class="max-w-3xl" style="margin: 0 auto;">
+        <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-color: rgba(255, 255, 255, 0.2); padding: 2rem;">
+          <div class="space-y-6">
+            <div>
+              <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 700; color: white;">Composite Risk Formula</h3>
+              <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 0.75rem; font-family: monospace; font-size: 0.875rem;">
+                Health Score = 100 - [(Heart×0.35) + (Diabetes×0.25) + (Hypertension×0.25) + (Obesity×0.15)]
+              </div>
+            </div>
+
+            <div>
+              <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 700; color: white;">Risk Level Classification</h3>
+              <div class="space-y-2">
+                <div class="flex items-center gap-3" style="color: white;">
+                  <div style="width: 1rem; height: 1rem; border-radius: 50%; background: #10b981;"></div>
+                  <span class="font-semibold">0-30%</span>
+                  <span style="opacity: 0.8;">- Low Risk</span>
+                </div>
+                <div class="flex items-center gap-3" style="color: white;">
+                  <div style="width: 1rem; height: 1rem; border-radius: 50%; background: #eab308;"></div>
+                  <span class="font-semibold">30-50%</span>
+                  <span style="opacity: 0.8;">- Moderate Risk</span>
+                </div>
+                <div class="flex items-center gap-3" style="color: white;">
+                  <div style="width: 1rem; height: 1rem; border-radius: 50%; background: #f97316;"></div>
+                  <span class="font-semibold">50-70%</span>
+                  <span style="opacity: 0.8;">- High Risk</span>
+                </div>
+                <div class="flex items-center gap-3" style="color: white;">
+                  <div style="width: 1rem; height: 1rem; border-radius: 50%; background: #ef4444;"></div>
+                  <span class="font-semibold">70-85%</span>
+                  <span style="opacity: 0.8;">- Very High Risk</span>
+                </div>
+                <div class="flex items-center gap-3" style="color: white;">
+                  <div style="width: 1rem; height: 1rem; border-radius: 50%; background: #991b1b;"></div>
+                  <span class="font-semibold">85-100%</span>
+                  <span style="opacity: 0.8;">- Critical Risk</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="mb-3" style="font-size: 1.25rem; font-weight: 700; color: white;">Grade Mapping</h3>
+              <div class="grid grid-cols-2 gap-3">
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">A+</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">95-100</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">A</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">90-94</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">B</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">80-89</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">C</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">70-79</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">D</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">60-69</span>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 0.75rem; border-radius: 0.5rem;">
+                  <span style="font-weight: 700; font-size: 1.125rem; color: white;">F</span>
+                  <span style="opacity: 0.8; margin-left: 0.5rem; font-size: 0.875rem;">&lt;60</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-12">Technology Stack</h2>
+
+      <div class="max-w-3xl" style="margin: 0 auto;">
+        <div class="grid md:grid-cols-2">
+          <div class="card">
+            <h3 class="font-bold mb-4" style="font-size: 1.125rem; color: var(--primary);">Backend</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Python
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Flask
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                scikit-learn
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                pandas
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                NumPy
+              </li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="font-bold mb-4" style="font-size: 1.125rem; color: var(--primary);">Frontend</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                HTML5
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                CSS3
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Vanilla JavaScript
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Responsive Design
+              </li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="font-bold mb-4" style="font-size: 1.125rem; color: var(--primary);">ML Models</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Random Forest
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Feature Engineering
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Cross-validation
+              </li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="font-bold mb-4" style="font-size: 1.125rem; color: var(--primary);">Data</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Medical Datasets
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                WHO Guidelines
+              </li>
+              <li class="flex items-center gap-2" style="font-size: 0.875rem;">
+                <svg class="icon-sm text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Peer-reviewed Studies
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer Section -->
+  <section class="section" style="padding: 3rem 0; background: rgba(245, 158, 11, 0.1); border-top: 1px solid rgba(245, 158, 11, 0.2); border-bottom: 1px solid rgba(245, 158, 11, 0.2);">
+    <div class="container">
+      <div class="max-w-3xl text-center" style="margin: 0 auto;">
+        <h3 class="mb-4" style="font-size: 1.5rem; font-weight: 700;">⚠️ Medical Disclaimer</h3>
+        <p class="text-muted leading-relaxed">
+          Health AI is an educational tool designed to provide health insights based on data analysis. 
+          It is <strong>not a substitute for professional medical advice, diagnosis, or treatment</strong>. 
+          Always seek the guidance of qualified healthcare professionals for any health concerns. 
+          Never disregard professional medical advice or delay seeking it because of information provided by this tool.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  </body>
+</html>
+
+
+
+

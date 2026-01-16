@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Label Scanner - AI-Powered Analysis</title>
+  <meta name="description" content="Upload food label photos for instant AI-powered nutrition analysis based on your health profile.">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
+  <style>
+    .spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 4px solid rgba(14, 165, 233, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  {% include "components/header.html" %}
+
+  <div class="container" style="padding: 3rem 1rem;">
+    <div class="max-w-4xl" style="margin: 0 auto;">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(14, 165, 233, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 600; margin-bottom: 1rem; font-size: 0.875rem;">
+          <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+          </svg>
+          AI-Powered Nutrition Analysis
+        </div>
+        <h1 class="mb-4">Nutrition Label Scanner</h1>
+        <p class="text-muted" style="font-size: 1.125rem;">
+          Upload a food label photo for instant health analysis based on your profile
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div id="upload-section">
+        <div class="card" style="padding: 3rem; border-radius: 1.5rem; box-shadow: var(--shadow-elevated); border: 2px dashed rgba(14, 165, 233, 0.2); transition: all 0.3s;">
+          <div class="text-center">
+            <div style="width: 6rem; height: 6rem; margin: 0 auto 1.5rem; border-radius: 50%; background: rgba(14, 165, 233, 0.1); display: flex; align-items: center; justify-content: center;">
+              <svg style="width: 3rem; height: 3rem; color: var(--primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+            </div>
+            <h3 class="mb-3" style="font-size: 1.5rem;">Upload Food Label</h3>
+            <p class="text-muted mb-6">
+              Drag and drop or click to upload a photo of the nutrition facts label
+            </p>
+            <input type="file" id="file-input" accept="image/*" style="display: none;">
+            <button onclick="document.getElementById('file-input').click()" class="btn btn-primary btn-lg">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              Choose File
+            </button>
+            <p class="text-muted mt-4" style="font-size: 0.875rem;">
+              Supports: JPG, PNG, HEIC (Max 10MB)
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Section (Initially Hidden) -->
+      <div id="loading-section" style="display: none;">
+        <div class="card" style="padding: 3rem; text-align: center;">
+          <div class="spinner" style="margin: 0 auto 1.5rem;"></div>
+          <h3 class="mb-2">Analyzing Nutrition Label...</h3>
+          <p class="text-muted">Using AI to extract and analyze nutrition data</p>
+        </div>
+      </div>
+
+      <!-- Results Section (Initially Hidden) -->
+      <div id="results-section" style="display: none;">
+        <div class="space-y-6">
+          <!-- Image Preview -->
+          <div class="card">
+            <h3 class="mb-4" style="font-size: 1.25rem;">Uploaded Image</h3>
+            <div style="background: var(--bg-secondary); border-radius: 1rem; overflow: hidden; display: flex; align-items: center; justify-content: center; max-height: 24rem;">
+              <img id="preview-image" src="" alt="Nutrition label" style="max-width: 100%; max-height: 24rem; object-fit: contain;">
+            </div>
+          </div>
+
+          <!-- Nutrition Facts -->
+          <div class="card">
+            <h3 class="mb-6" style="font-size: 1.5rem;">Nutrition Facts Detected</h3>
+            <div id="nutrition-grid" class="grid grid-cols-2 md:grid-cols-4">
+              <!-- Dynamic nutrition data will be inserted here -->
+            </div>
+          </div>
+
+          <!-- AI Recommendation -->
+          <div id="ai-recommendation-card" class="card" style="padding: 2rem; box-shadow: var(--shadow-elevated);">
+            <!-- Dynamic AI recommendation will be inserted here -->
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+            <button onclick="resetScanner()" class="btn btn-outline btn-lg">
+              Scan Another Item
+            </button>
+            <button class="btn btn-primary btn-lg">
+              Save to History
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include "components/footer.html" %}
+
+  <script src="/static/js/common.js"></script>
+  <script>
+    let currentAnalysisData = null;
+
+    document.getElementById('file-input').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('Error', 'File size exceeds 10MB limit', 'danger');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        showToast('Error', 'Please upload an image file', 'danger');
+        return;
+      }
+
+      // Show preview immediately
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('preview-image').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      // Show loading state
+      document.getElementById('upload-section').style.display = 'none';
+      document.getElementById('loading-section').style.display = 'block';
+
+      // Upload and analyze
+      const formData = new FormData();
+      formData.append('nutrition_image', file);
+
+      try {
+        const response = await fetch('/api/analyze-nutrition', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          currentAnalysisData = result;
+          displayResults(result);
+          document.getElementById('loading-section').style.display = 'none';
+          document.getElementById('results-section').style.display = 'block';
+          showToast('Success!', 'Nutrition analysis complete!', 'success');
+        } else {
+          showToast('Error', result.error || 'Analysis failed', 'danger');
+          resetScanner();
+        }
+      } catch (error) {
+        console.error('Analysis error:', error);
+        showToast('Error', 'Failed to analyze nutrition label. Please try again.', 'danger');
+        resetScanner();
+      }
+    });
+
+    function displayResults(data) {
+      const nutrition = data.nutrition_data;
+      const recommendation = data.recommendation;
+
+      // Display nutrition facts
+      const nutritionGrid = document.getElementById('nutrition-grid');
+      nutritionGrid.innerHTML = '';
+
+      const nutritionFields = [
+        { key: 'calories', label: 'Calories', unit: 'kcal' },
+        { key: 'total_fat', label: 'Total Fat', unit: 'g' },
+        { key: 'sodium', label: 'Sodium', unit: 'mg' },
+        { key: 'total_carbohydrates', label: 'Total Carbs', unit: 'g' },
+        { key: 'total_sugars', label: 'Sugars', unit: 'g' },
+        { key: 'protein', label: 'Protein', unit: 'g' },
+        { key: 'cholesterol', label: 'Cholesterol', unit: 'mg' },
+        { key: 'dietary_fiber', label: 'Fiber', unit: 'g' }
+      ];
+
+      nutritionFields.forEach(field => {
+        const value = nutrition[field.key];
+        const displayValue = value !== null && value !== undefined ? Math.round(value * 10) / 10 : 'N/A';
+        
+        nutritionGrid.innerHTML += `
+          <div style="padding: 1rem; border-radius: 0.75rem; background: rgba(0, 0, 0, 0.03);">
+            <div class="text-muted mb-1" style="font-size: 0.875rem;">${field.label}</div>
+            <div style="font-size: 1.5rem; font-weight: 700;">
+              ${displayValue}${displayValue !== 'N/A' ? `<span style="font-size: 0.875rem; font-weight: 400; color: var(--muted); margin-left: 0.25rem;">${field.unit}</span>` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      // Display AI recommendation
+      const recommendationCard = document.getElementById('ai-recommendation-card');
+      const safeToEat = recommendation.safe_to_eat;
+      const healthScore = recommendation.health_score || 0;
+      
+      let borderColor, badgeClass, iconColor, iconBg, iconPath, statusTitle;
+      
+      if (safeToEat === true || recommendation.recommendation.toLowerCase().includes('should eat')) {
+        borderColor = 'var(--success)';
+        badgeClass = 'badge-success';
+        iconColor = 'var(--success)';
+        iconBg = 'rgba(16, 185, 129, 0.1)';
+        iconPath = 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z';
+        statusTitle = '✅ Safe to Eat';
+      } else if (safeToEat === false || recommendation.recommendation.toLowerCase().includes('avoid')) {
+        borderColor = 'var(--danger)';
+        badgeClass = 'badge-danger';
+        iconColor = 'var(--danger)';
+        iconBg = 'rgba(239, 68, 68, 0.1)';
+        iconPath = 'M6 18L18 6M6 6l12 12';
+        statusTitle = '⚠️ Not Recommended';
+      } else {
+        borderColor = 'var(--warning)';
+        badgeClass = 'badge-warning';
+        iconColor = 'var(--warning)';
+        iconBg = 'rgba(245, 158, 11, 0.1)';
+        iconPath = 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z';
+        statusTitle = '⚠️ Caution Recommended';
+      }
+
+      recommendationCard.style.border = `2px solid ${borderColor}`;
+      
+      let reasonsHTML = '';
+      if (recommendation.reasons && recommendation.reasons.length > 0) {
+        reasonsHTML = '<ul class="space-y-2 mb-6" style="list-style: none;">';
+        recommendation.reasons.forEach(reason => {
+          reasonsHTML += `
+            <li class="flex items-start gap-2">
+              <svg style="width: 1.25rem; height: 1.25rem; color: ${iconColor}; margin-top: 0.125rem; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>${reason}</span>
+            </li>
+          `;
+        });
+        reasonsHTML += '</ul>';
+      }
+
+      let concernsHTML = '';
+      if (recommendation.concerns && recommendation.concerns.length > 0) {
+        concernsHTML = '<div class="mb-4"><strong>Concerns:</strong><ul class="mt-2 space-y-1" style="list-style: disc; margin-left: 1.5rem;">';
+        recommendation.concerns.forEach(concern => {
+          concernsHTML += `<li>${concern}</li>`;
+        });
+        concernsHTML += '</ul></div>';
+      }
+
+      recommendationCard.innerHTML = `
+        <div class="flex items-start gap-4">
+          <div style="width: 3rem; height: 3rem; border-radius: 0.75rem; background: ${iconBg}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg style="width: 1.5rem; height: 1.5rem; color: ${iconColor};" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path>
+            </svg>
+          </div>
+          <div style="flex: 1;">
+            <div class="flex items-center gap-3 mb-3" style="flex-wrap: wrap;">
+              <h3 style="font-size: 1.5rem; font-weight: 700;">${statusTitle}</h3>
+              <div class="badge ${badgeClass}">Health Score: ${healthScore}/100</div>
+            </div>
+            <p class="text-muted mb-4 leading-relaxed">
+              ${recommendation.recommendation || 'Analysis complete'}
+            </p>
+            ${reasonsHTML}
+            ${concernsHTML}
+            ${recommendation.alternatives ? `
+              <div style="background: ${iconBg}; padding: 1rem; border-radius: 0.75rem;">
+                <h4 class="font-semibold mb-2">💡 Healthier Alternative</h4>
+                <p style="font-size: 0.875rem;">${recommendation.alternatives}</p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function resetScanner() {
+      document.getElementById('upload-section').style.display = 'block';
+      document.getElementById('loading-section').style.display = 'none';
+      document.getElementById('results-section').style.display = 'none';
+      document.getElementById('file-input').value = '';
+      currentAnalysisData = null;
+    }
+  </script>
+</body>
+</html>
+
+
+
+

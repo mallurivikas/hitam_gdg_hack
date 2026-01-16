@@ -67,8 +67,8 @@ An intelligent health assessment system that integrates **4 machine learning mod
 
 ```bash
 # Clone the repository
-git clone https://github.com/Wahaj-udn/Health-risk-prediction-and-guidance-system.git
-cd Health-risk-prediction-and-guidance-system
+git clone https://github.com/mallurivikas/hitam_gdg_hack
+cd gdg-hack
 
 # Install dependencies
 pip install -r requirements.txt
@@ -677,7 +677,3 @@ For questions, issues, or contributions:
 - **Supported Interfaces:** Web, CLI, WhatsApp
 
 ---
-
-**Built with ❤️ for GDG HACK Project**
-
-**Stay Healthy! 🏥💪**

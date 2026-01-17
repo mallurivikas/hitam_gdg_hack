@@ -27,19 +27,42 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
-# Initialize the pipeline and nutrition analyzer globally
+# Initialize the pipeline and nutrition analyzer LAZILY (not on startup)
+# This prevents memory issues on Render's free tier (512MB limit)
+pipeline = None
+nutrition_analyzer = None
+
+def get_pipeline():
+    """Lazy load the pipeline only when needed"""
+    global pipeline
+    if pipeline is None:
+        print("🔄 Loading Health Assessment Pipeline...")
+        try:
+            pipeline = HealthAssessmentPipeline(train_models=False)
+            print("✅ Pipeline loaded successfully!")
+        except Exception as e:
+            print(f"❌ Error loading pipeline: {e}")
+            raise
+    return pipeline
+
+def get_nutrition_analyzer():
+    """Lazy load the nutrition analyzer only when needed"""
+    global nutrition_analyzer
+    if nutrition_analyzer is None:
+        print("🔄 Loading Nutrition Analyzer...")
+        try:
+            nutrition_analyzer = NutritionAnalyzer()
+            print("✅ Nutrition Analyzer loaded successfully!")
+        except Exception as e:
+            print(f"❌ Error loading nutrition analyzer: {e}")
+            raise
+    return nutrition_analyzer
+
+# Initialize WhatsApp handler (lightweight, can initialize now)
 try:
-    pipeline = HealthAssessmentPipeline(train_models=False)
-    nutrition_analyzer = NutritionAnalyzer()
-    print("✅ Pipeline and Nutrition Analyzer initialized successfully!")
-    
-    # Initialize WhatsApp handler with nutrition analyzer
-    init_whatsapp_handler(nutrition_analyzer)
-    
+    init_whatsapp_handler(None)  # Pass None, will be set later
 except Exception as e:
-    print(f"❌ Error initializing: {e}")
-    pipeline = None
-    nutrition_analyzer = None
+    print(f"⚠️  WhatsApp handler init warning: {e}")
 
 # Register WhatsApp blueprint
 app.register_blueprint(whatsapp_bp, url_prefix='/whatsapp')
@@ -109,7 +132,10 @@ def sample_demo():
 def api_assess():
     """API endpoint for health assessment"""
     try:
-        if not pipeline:
+        # Lazy load pipeline
+        current_pipeline = get_pipeline()
+        
+        if not current_pipeline:
             return jsonify({
                 'success': False,
                 'error': 'Health assessment system not available. Please ensure all models are properly loaded.'
@@ -145,7 +171,7 @@ def api_assess():
         print(f"Processing assessment for user data: {list(user_data.keys())}")
         
         # Run assessment
-        report = pipeline.assess_and_report(user_data)
+        report = current_pipeline.assess_and_report(user_data)
         
         # Store results in session for results page
         session['assessment_results'] = {
@@ -198,7 +224,10 @@ def api_assess():
 def api_sample_assessment():
     """API endpoint for sample patient assessment"""
     try:
-        if not pipeline:
+        # Lazy load pipeline
+        current_pipeline = get_pipeline()
+        
+        if not current_pipeline:
             return jsonify({
                 'success': False,
                 'error': 'Health assessment system not available.'
@@ -251,7 +280,7 @@ def api_sample_assessment():
             'resting_ecg': 1
         }
         
-        report = pipeline.assess_and_report(sample_data)
+        report = current_pipeline.assess_and_report(sample_data)
         
         return jsonify({
             'success': True,
@@ -801,7 +830,10 @@ def download_health_plan_pdf():
 def api_analyze_nutrition():
     """API endpoint for nutrition label analysis"""
     try:
-        if not nutrition_analyzer:
+        # Lazy load nutrition analyzer
+        current_analyzer = get_nutrition_analyzer()
+        
+        if not current_analyzer:
             return jsonify({
                 'success': False,
                 'error': 'Nutrition analyzer not available'

@@ -78,26 +78,53 @@ class HealthAssessmentPipeline:
         
         try:
             models_loaded = []
+            models_to_train = []
             
+            # Try loading each model
             if self.diabetes_model.load_model():
                 models_loaded.append("Diabetes")
+            else:
+                models_to_train.append(("Diabetes", self.diabetes_model, "diabetes.csv"))
+            
             if self.heart_model.load_model():
                 models_loaded.append("Heart")
+            else:
+                models_to_train.append(("Heart", self.heart_model, "heart.csv"))
+            
             if self.hypertension_model.load_model():
                 models_loaded.append("Hypertension")
+            else:
+                models_to_train.append(("Hypertension", self.hypertension_model, "hypertension_dataset.csv"))
+            
             if self.obesity_model.load_model():
                 models_loaded.append("Obesity")
-            
-            if len(models_loaded) < 4:
-                print("\n⚠️  Some models not found. Training required models...")
-                self._train_all_models()
             else:
+                models_to_train.append(("Obesity", self.obesity_model, "obesity.csv"))
+            
+            # Report loaded models
+            if models_loaded:
                 print(f"✅ Loaded models: {', '.join(models_loaded)}")
+            
+            # Train missing models (smart: only train small ones, hypertension is pre-loaded)
+            if models_to_train:
+                print(f"\n⚠️  Missing models: {', '.join([m[0] for m in models_to_train])}")
+                print("🔄 Training missing models (this happens once)...\n")
+                
+                dataset_dir = "dataset"
+                for name, model, dataset_file in models_to_train:
+                    print(f"Training {name} Model...")
+                    try:
+                        model.train(os.path.join(dataset_dir, dataset_file))
+                        print(f"✅ {name} Model trained successfully!")
+                    except Exception as e:
+                        print(f"❌ Failed to train {name} Model: {e}")
+                        raise
+                
+                print("\n✅ All missing models trained successfully!")
         
         except Exception as e:
-            print(f"\n⚠️  Error loading models: {e}")
-            print("Training all models from scratch...")
-            self._train_all_models()
+            print(f"\n❌ Critical error: {e}")
+            raise
     
     def assess_health(self, user_data, verbose=True):
         """

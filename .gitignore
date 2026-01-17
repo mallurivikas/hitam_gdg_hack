@@ -58,11 +58,8 @@ uploads/*
 *.sqlite
 *.db
 
-# Trained Models (except hypertension - it's pre-loaded due to size)
-saved_models/diabetes_model.pkl
-saved_models/heart_model.pkl
-saved_models/obesity_model.pkl
-# hypertension_model.pkl is committed (414MB - largest, pre-trained)
+# Trained Models - All models will train on first request
+saved_models/*.pkl
 
 # Jupyter Notebook
 .ipynb_checkpoints

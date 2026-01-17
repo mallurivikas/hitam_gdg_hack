@@ -5,8 +5,10 @@ services:
     runtime: python
     plan: free
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: gunicorn app:app
-    envVars:
+    startCommand: gunicorn app:app    disk:
+      name: models-disk
+      mountPath: /opt/render/project/src/saved_models
+      sizeGB: 1    envVars:
       - key: FLASK_SECRET_KEY
         generateValue: true
       - key: PYTHON_VERSION

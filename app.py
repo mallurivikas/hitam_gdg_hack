@@ -37,11 +37,25 @@ def get_pipeline():
     global pipeline
     if pipeline is None:
         print("🔄 Loading Health Assessment Pipeline...")
+        print(f"📂 Checking for saved models in: {os.path.abspath('saved_models')}")
+        
+        # Check if saved_models directory exists
+        if not os.path.exists('saved_models'):
+            print("⚠️  saved_models directory not found, will train models")
+        else:
+            model_files = os.listdir('saved_models')
+            print(f"📁 Found {len(model_files)} files in saved_models/")
+        
         try:
+            import time
+            start_time = time.time()
             pipeline = HealthAssessmentPipeline(train_models=False)
-            print("✅ Pipeline loaded successfully!")
+            load_time = time.time() - start_time
+            print(f"✅ Pipeline loaded successfully in {load_time:.2f} seconds!")
         except Exception as e:
             print(f"❌ Error loading pipeline: {e}")
+            import traceback
+            traceback.print_exc()
             raise
     return pipeline
 
@@ -132,8 +146,21 @@ def sample_demo():
 def api_assess():
     """API endpoint for health assessment"""
     try:
+        print("📥 Received assessment request")
+        
         # Lazy load pipeline
-        current_pipeline = get_pipeline()
+        try:
+            print("🔄 Loading pipeline...")
+            current_pipeline = get_pipeline()
+            print("✅ Pipeline loaded successfully")
+        except Exception as load_error:
+            print(f"❌ Pipeline loading failed: {load_error}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({
+                'success': False,
+                'error': f'Failed to load health assessment models: {str(load_error)}'
+            }), 500
         
         if not current_pipeline:
             return jsonify({
@@ -143,6 +170,7 @@ def api_assess():
         
         # Get form data
         form_data = request.get_json() if request.is_json else request.form.to_dict()
+        print(f"📝 Received form data with {len(form_data)} fields")
         
         # Convert numeric fields
         numeric_fields = [
@@ -168,10 +196,12 @@ def api_assess():
         # Remove None values to let the system use defaults
         user_data = {k: v for k, v in user_data.items() if v is not None and v != ''}
         
-        print(f"Processing assessment for user data: {list(user_data.keys())}")
+        print(f"🔍 Processing assessment for user data: {list(user_data.keys())}")
         
         # Run assessment
+        print("🧠 Running health assessment...")
         report = current_pipeline.assess_and_report(user_data)
+        print(f"✅ Assessment completed: {report.get('health_score', 'N/A')}")
         
         # Store results in session for results page
         session['assessment_results'] = {

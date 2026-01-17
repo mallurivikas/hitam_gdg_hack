@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: health-assessment-app
+    env: python
+    runtime: python
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_ENV
+        value: production
+    healthCheckPath: /
+    autoDeploy: true

@@ -50,6 +50,36 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint for monitoring"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'Health Assessment System',
+        'pipeline_loaded': pipeline is not None,
+        'nutrition_analyzer_loaded': nutrition_analyzer is not None,
+        'timestamp': datetime.now().isoformat()
+    }), 200
+
+@app.route('/api/status')
+def api_status():
+    """API status endpoint"""
+    return jsonify({
+        'api': 'operational',
+        'version': '1.0',
+        'models': {
+            'diabetes': pipeline is not None,
+            'heart': pipeline is not None,
+            'hypertension': pipeline is not None,
+            'obesity': pipeline is not None
+        },
+        'features': {
+            'web_interface': True,
+            'whatsapp': True,
+            'nutrition_scanner': nutrition_analyzer is not None
+        }
+    }), 200
+
 @app.route('/')
 def index():
     """Home page with health assessment form"""
@@ -893,4 +923,8 @@ if __name__ == '__main__':
     print("📱 Open your browser and navigate to: http://localhost:5000")
     print("⚕️  Remember: This is for educational purposes only!")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Use environment PORT for production (Render) or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_ENV', 'development') != 'production'
+    
+    app.run(debug=debug_mode, host='0.0.0.0', port=port)
